@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<script src="../../vendor/angular.min.js"></script>
+<body>
+
+	<div ng-app="myApp" ng-controller="personCtrl">
+
+		<button ng-click="toggle()">{{val}}</button>
+
+		<p ng-show="myVar">Appedo gets you closer to your applications.
+			Analyze issues before they impact your business. Accelerate success
+			by making every interaction count.</p>
+
+	</div>
+
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('personCtrl', function($scope) {
+
+			$scope.myVar = true;
+			$scope.val = "show";
+			$scope.toggle = function() {
+				$scope.myVar = !$scope.myVar;
+				$scope.val = "Hide";
+			}
+		});
+	</script>
+</body>
+</html>

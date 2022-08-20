@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+	<p>There are two different ways to access an object property:</p>
+	<p>1) You can use person.property.</p>
+
+	<p id="prop"></p>
+
+	<p>You can use person["property"] also,</p>
+
+	<p id="prop1"></p>
+
+	<p>2 . You can use person["property"] also,</p>
+
+	<p id="prop2"></p>
+
+	<script>
+		var person = {
+			firstName : "John",
+			lastName : "Doe",
+			id : 5566,
+			details : ""
+		};
+
+		var detailsofA = {
+			no : "1/44a",
+			st : "new street",
+			area : "kallikuppam",
+			city : "chennai"
+		};
+
+		person.details = detailsofA;
+		document.getElementById("prop").innerHTML = person.firstName + " "
+				+ person.lastName;
+
+		document.getElementById("prop1").innerHTML = person["firstName"] + " "
+				+ person["lastName"];
+
+		document.getElementById("prop2").innerHTML = person["details"].area
+				+ " - " + person["details"].city;
+	</script>
+
+</body>
+</html>

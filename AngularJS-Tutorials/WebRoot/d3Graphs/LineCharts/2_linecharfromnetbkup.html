@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+		<script src= "../../vendor/d3/d3.min.js"></script>
+</head>
+
+<body>
+
+<div id="myChartId"></div>
+
+        <svg id="visualisation" width="1000" height="500"></svg>
+            <script>
+                function InitChart() {
+                	
+                	var d3XaixsFormat = "%d %b %H:%M";
+                    var data = [{
+                        "sale": "202",
+                        "year": "2000"
+                    }, {
+                        "sale": "215",
+                        "year": "2002"
+                    }, {
+                        "sale": "179",
+                        "year": "2004"
+                    }, {
+                        "sale": "199",
+                        "year": "2006"
+                    }, {
+                        "sale": "134",
+                        "year": "2008"
+                    }, {
+                        "sale": "176",
+                        "year": "2010"
+                    }];
+
+
+                    var data2 = [{
+                        "sale": "1152",
+                        "year": "2000"
+                    }, {
+                        "sale": "1189",
+                        "year": "2002"
+                    }, {
+                        "sale": "1179",
+                        "year": "2004"
+                    }, {
+                        "sale": "1199",
+                        "year": "2006"
+                    }, {
+                        "sale": "1134",
+                        "year": "2008"
+                    }, {
+                        "sale": "1176",
+                        "year": "2010"
+                    }];
+                    
+                    var data3 = [{
+                        "sale": "1150200",
+                        "year": "2000"
+                    }, {
+                        "sale": "1180900",
+                        "year": "2002"
+                    }, {
+                        "sale": "1170900",
+                        "year": "2004"
+                    }, {
+                        "sale": "1190900",
+                        "year": "2006"
+                    }, {
+                        "sale": "1103400",
+                        "year": "2008"
+                    }, {
+                        "sale": "1170600",
+                        "year": "2010"
+                    }];
+                    var p = d3.select("#myChartId");
+                    var sp = p.append("svg")
+                				.attr("width", 1000)
+                				.attr("height",500)
+                				.attr("id","mysvg");
+                    
+                    
+                    var vis = d3.select("#mysvg"),
+                        WIDTH = 1000,
+                        HEIGHT = 500,
+                        MARGINS = {
+                            top: 20,
+                            right: 20,
+                            bottom: 20,
+                            left: 50
+                        },
+
+                        xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([2000, 2010]),
+
+                        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([134, 215]),
+
+                        xAxis = d3.svg.axis()
+                        .scale(xScale)
+                        .orient("bottom")
+                        .ticks(5)
+                        .outerTickSize(0)
+    					.tickPadding(10),
+
+                        yAxis = d3.svg.axis()
+                        .scale(yScale)
+                        .orient("left");
+
+  
+                    vis.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+                        .style("fill","none")
+                        .style("stroke","#777")
+                        .style("shape-rendering","crispEdges")
+                        .call(xAxis);
+
+                    vis.append("g")
+                        .attr("class", "y axis")
+                        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+                        .style("fill","none")
+                        .style("stroke","#777")
+                        .style("shape-rendering","crispEdges")
+                        .style('opacity',1)
+                        .call(yAxis);
+                    
+                    var lineGen = d3.svg.line()
+                        .x(function(d) {
+                            return xScale(d.year);
+                        })
+                        .y(function(d) {
+                            return yScale(d.sale);
+                        })
+                        .interpolate("linear");
+                    
+                    
+                    vis.append('path')
+                        .attr('d', lineGen(data))
+                        .attr('stroke', 'green')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none');
+
+                }
+                InitChart();
+            </script>
+</body>
+
+</html>

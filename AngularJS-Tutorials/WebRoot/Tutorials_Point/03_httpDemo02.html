@@ -1,0 +1,38 @@
+
+<html>
+<head>
+<title>AJAX with Servlets using AngularJS</title>
+      <script src= "../vendor/angular.min.js"></script>
+<script>
+	var app = angular.module('myApp', []);
+
+	function MyController($scope, $http) {
+
+		$scope.getDataFromServer = function() {
+			$http({
+				method : 'POST',
+			//	url : 'javaAngularJS'
+				url : 'http://23.23.129.228/getLocations.php',
+		          params: {
+						f: "json"
+					}
+			}).success(function(data, status, headers, config) {
+				$scope.person = data;
+			}).error(function(data, status, headers, config) {
+				// called asynchronously if an error occurs
+				// or server returns response with an error status.
+			});
+
+		};
+	};
+</script>
+</head>
+<body>
+	<div data-ng-app="myApp">
+		<div data-ng-controller="MyController">
+			<button data-ng-click="getDataFromServer()">Fetch data from server</button>
+			<p>{{person}}</p>		
+		</div>
+	</div>
+</body>
+</html>

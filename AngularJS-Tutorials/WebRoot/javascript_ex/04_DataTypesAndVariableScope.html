@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Data Types and Variable Scopes</title>
+
+<!-- Javascript in Head -->
+<script type="text/javascript">
+
+var name = "javaScript";
+var age  = 20;
+var height = 5.5;
+var indian = true;
+var weight;
+var salary = null;
+
+
+var a = 1000; //golbal variable
+
+
+console.log(name);
+console.log(age);
+console.log(height);
+console.log(indian);
+console.log(weight);
+console.log(salary);
+
+
+function display(){
+	alert("a = "+ a);
+	alert("a1 = "+ a1); //undefined error
+	alert("a2 = "+ a2); //undefined error
+}
+
+function display1(){
+	var a1 = "200"; //local variable
+	alert("a = "+ a);
+	alert("a1 = "+ a1);
+	alert("a2 = "+ a2); //undefined error
+}
+
+function display2(){
+	var a2 = "300"; //local variable
+	alert("a = "+ a);
+	alert("a1 = "+ a1); //undefined error
+	alert("a2 = "+ a2);
+}
+
+</script>
+
+</head>
+
+<body>
+
+	<h3>Data Types and Variable Scopes</h3>
+
+	<input type="button" value="Display" onclick="display()">
+	<input type="button" value="Display 1" onclick="display1()">
+	<input type="button" value="Display 2" onclick="display2()">
+
+</body>
+</html>

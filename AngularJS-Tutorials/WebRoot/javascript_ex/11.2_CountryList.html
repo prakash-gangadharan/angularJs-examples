@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Countries</title>
+
+<!-- Javascript in Head -->
+<script type="text/javascript">
+var countrywin;
+function selectCountry(ctry) {
+	window.opener.document.frm.country.value=ctry;
+	window.self.close();
+}
+
+</script>
+</head>
+
+<body>
+	<h3>onclick of a anchor tag</h3>
+	
+		<a href="#" onclick="selectCountry('USA')">USA</a><br>
+		<a href="#" onclick="selectCountry('German')">German</a><br>
+		<a href="#" onclick="selectCountry('Singapore')">Singapore</a><br>
+		<!-- # represents its a link that links to nowhere -->
+</body>
+</html>

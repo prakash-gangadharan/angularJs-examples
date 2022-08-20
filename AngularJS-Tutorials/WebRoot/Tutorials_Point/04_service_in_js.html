@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<script src="../vendor/angular.min.js"></script>
+<body>
+
+	<div ng-app="app">
+		<div ng-controller="CalculatorController">
+			Enter a number: <input type="number" ng-model="number" />
+			<button ng-click="doSquare()">
+				X<sup>2</sup>
+			</button>
+			<button ng-click="doCube()">
+				X<sup>3</sup>
+			</button>
+			<button ng-click="doSquarehere()">
+				hehe<sup>3</sup>
+			</button>
+			<div>Answer: {{answer}}</div>
+			<div>test: {{doSquarehere()}}</div>
+
+			<div>variable : double service: {{multi}}</div>
+		</div>
+	</div>
+
+	<script>
+		var app = angular.module('app', []);
+
+		app.service('MathService', function() {
+			this.add = function(a, b) {
+				return a + b
+			};
+
+			this.subtract = function(a, b) {
+				return a - b
+			};
+
+			this.multiply = function(a, b) {
+				return a * b
+			};
+
+			this.divide = function(a, b) {
+				return a / b
+			};
+		});
+
+		app.service('CalculatorService', function(MathService) {
+
+			//     this.square = function(a) { return MathService.multiply(a,a); };
+			//     this.cube = function(a) { return MathService.multiply(a, MathService.multiply(a,a)); };
+
+			this.square = function(a) {
+				return a * a;
+			};
+			this.cube = function(a) {
+				return a * a * a;
+			};
+
+		});
+
+		app.controller('CalculatorController', function($scope,
+				CalculatorService, MathService) {
+
+			$scope.doSquare = function() {
+				$scope.answer = CalculatorService.square($scope.number);
+			}
+
+			$scope.doSquarehere = function() {
+				return CalculatorService.square($scope.number);
+			}
+
+			$scope.doCube = function() {
+				$scope.answer = CalculatorService.cube($scope.number);
+			}
+
+			$scope.multiply = function() {
+
+				$scope.multi = MathService.multiply(5, 2);
+				return MathService.multiply(4, 2);
+			}
+			$scope.multiply();
+		});
+	</script>
+
+</body>
+</html>

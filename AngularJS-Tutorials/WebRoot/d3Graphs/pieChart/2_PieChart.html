@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+/* .arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+} */
+
+/* .arc path {
+  stroke: #fff;
+} */
+</style>
+<body>
+
+	<script src= "../../vendor/d3/d3.min.js"></script>
+	<script>
+	
+	var data = [{"T":"Helpdesk","V":2704659},{"T":"Email","V":4499890},{"T":"Web","V":2159981},{"T":"Phone","V":3853788}];
+	
+	/* var width = 960,
+    height = 500, */
+    
+    var width = 420,
+    height = 250,
+    radius = Math.min(width, height) / 2;
+	
+	
+	var color = d3.scale.ordinal()
+    .range(["#ba490c", "#104a8d", "#aa6c42", "#7b3e80"]);
+	
+	var arc = d3.svg.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(0);
+	
+	var labelArc = d3.svg.arc()
+    .outerRadius(radius - 40)
+    .innerRadius(radius - 40);
+	
+
+	var pie = d3.layout.pie()
+	    .sort(null)
+	    .value(function(d) { return d.V; });
+	
+	var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+	
+	
+	var g = svg.selectAll(".arc")
+	.data(pie(data))
+	.enter().append("g")
+	.attr("class", "arc");
+
+		  g.append("path")
+		      .attr("d", arc)
+		      .style("stroke", " #fff")
+		      .style("fill", function(d) { 
+		    	  
+		    	  return color(d.data.T); });
+
+		  g.append("text")
+		      .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+		      .attr("dy", ".35em")
+		      .style("font", "10px sans-serif")
+		      .style("text-anchor", "middle")
+		      .text(function(d) { return d.data.T; });
+		  /* font: 10px sans-serif;
+		  text-anchor: middle; */
+
+		function type(d) {
+		  d.V = +d.V;
+		  return d;
+		}
+		  options = ["Helpdesk", "Email", "Web", "Phone"];
+		  
+		  var data = [{"T":"Helpdesk","V":2704659},{"T":"Email","V":4499890},{"T":"Web","V":2159981},{"T":"Phone","V":3853788}];
+		  
+	    var legend = svg.selectAll(".legend")
+           .data(options.slice())
+           .enter().append("g")
+           .attr("class", "legend")
+           .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+	    legend.append("rect")
+	            .attr("x", width - 18)
+	            .attr("width", 18)
+	            .attr("height", 18)
+	            .style("fill", "red");
+
+	    legend.append("text")
+	            .attr("x", width - 24)
+	            .attr("y", 9)
+	            .attr("dy", ".35em")
+	            .style("text-anchor", "start")
+	            .text(function(d) { return d; });
+	
+	</script>
+</body>

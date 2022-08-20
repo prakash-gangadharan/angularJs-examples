@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<script src="../../vendor/angular.min.js"></script>
+<script src="scripts/controller.js"></script>
+<body>
+	<!-- <div ng-app=""> -->
+	<div data-ng-app="myApp" ng-controller="myCtrl">
+	
+		<h4>The ng-model directive binds the value of HTML controls (input, select, textarea) to application data.</h4>
+		<h4>The ng-bind directive binds application data to the HTML view.</h4>
+			<div>
+			<!-- AngularJS expressions bind AngularJS data to HTML the same way as the ng-bind directive. -->
+				
+				<input type="text" ng-model="name">Hello: 
+				<br/>expression: <p>{{name}}</p>
+				ng-bind: <p ng-bind="name"></p>
+				
+			</div>
+		<hr>
+				
+		
+		<h4>The ng-init / data-ng-init directive initializes AngularJS application variables.</h4>
+			
+			<div ng-init="fName='John'">
+				<p>
+					The name is <span ng-bind="fName"></span>
+				</p>
+			</div>
+		
+		 <div data-ng-init="fName='John'">
+		 	<p>The name is <span  style="color:blue" data-ng-bind="fName"></span></p>
+		 </div>
+		 <hr>
+		
+		
+		<h4>AngularJS expressions {{ expression }}</h4>
+		
+			<div ng-init="myCol='lightblue';quantity=6;cost=3">
+			
+				<p>My first expression: {{ 5 + 5 }}</p>
+				
+				<input ng-model="myCol" value="{{myCol}}">
+				<input style="background-color:{{myCol}}">
+	
+				
+			<h5>AngularJS numbers are like JavaScript numbers:</h5>
+				<p>Total in dollar: {{quantity * cost}}</p>
+				
+			<h5>AngularJS objects are like JavaScript objects:</h5>
+				<div ng-init="person={fstName:'Prakash',lstName:'Gangadharan'}">
+				
+					<p>The name is : {{ person.fstName + " " + person.lstName }}</p>
+					<p>The name is (using ng-bind) : <span ng-bind="person.fstName + ' ' + person.lstName"></span></p>
+				</div>
+				
+			</div>
+		<hr>
+		
+		<h4>The ng-app directive defines the application, the ng-controller directive defines the controller.</h4>
+			First Name: <input type="text" ng-model="firstName"><br/>
+			Last Name: <input type="text" ng-model="lastName"><br/>
+			<br>
+			Full Name : {{firstName + " " + lastName}} <br/>
+			Full Name : {{fullname()}} <!-- using function -->
+			<hr>
+			
+			<!-- drop_down with default select value -->
+			
+						<!-- name - telephone_code
+				value - country_name -->
+				   <!-- ng-options="option.value as option.name for option in options"> -->
+			
+			
+		<div ng-init="options = [ {
+				      'telephone_code': 263, 
+				      'country_name': 'Zimbabwe'
+				    },
+				    {
+				      'telephone_code': 93,
+				      'country_name': 'Afghanistan'
+				    },
+				    {
+				      'telephone_code': 355,
+				      'country_name': 'Albania'
+				    },
+				    {
+				      'telephone_code': 213,
+				      'country_name': 'Algeria'
+				    }]">
+								    
+	<select name="telephoneCode" id="telephoneCode" ng-model="telephoneCode" 
+	        ng-init="telephoneCode = telephoneCode || options[2].telephone_code">
+	         <option ng-repeat="option in options" ng-value="option.telephone_code">{{option.telephone_code}}</option>
+	</select>
+
+	</div>
+	
+</body>
+</html>

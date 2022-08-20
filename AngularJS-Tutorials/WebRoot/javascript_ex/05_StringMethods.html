@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>String Methods</title>
+
+<!-- Javascript in Head -->
+<script type="text/javascript">
+	// Demonstarte String Length
+
+	var txt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	console.log("lenght is: " + txt.length);
+
+	// Finding a String in a String
+	var str = "Please locate where 'locate' occurs!.";
+
+	var pos = str.indexOf("locate");
+	console.log("position is: " + pos);
+
+	pos = str.lastIndexOf("locate");
+	console.log("last position is: " + pos);
+
+	// Searching for a String in a String
+
+	pos = str.search("locate");
+	console.log("position by serach: " + pos);
+
+	// Extracting String Parts
+
+	// 1. The slice() Method
+	console.info('The slice() Method');
+	var str = "Apple, Banana, Kiwi";
+
+	// The method takes 2 parameters: the starting index (position), and the ending index (position).
+	var res = str.slice(7, 13);
+	console.log("slice ->> " + res);
+
+	// If a parameter is negative, the position is counted from the end of the string.
+	res = str.slice(-12, -6);
+	console.log("slice ->> " + res);
+
+	// 2. The substring() Method
+	// is similar to slice() but cannot accept negative indexes.
+	res = str.substring(7, 13);
+	console.log("substring ->> " + res);
+
+	// 3. The substr() Method
+	// is similar to slice() but the difference is that the second parameter specifies the length of the extracted part.
+	res = str.substr(7, 6);
+	console.log("substr ->> " + res);
+
+	//Replacing String Content - The replace() method
+	var str = "Please visit Microsoft !";
+	res = str.replace("Microsoft", "W3Schools");
+	console.log(res);
+
+	//Converting to Upper and Lower Case
+
+	var text = "Hello Team";
+	res = text.toUpperCase();
+	console.log("toUpperCase ->> " + res);
+
+	res = text.toLowerCase()
+	console.log("toLowerCase ->> " + res);
+
+	// The concat() Method - joins two or more strings:	 
+	var text1 = "Hello";
+	var text2 = "Team";
+	text3 = text1.concat(" ", text2);
+	console.log("concat ->> " + text3);
+
+	// Converting a String to an Array - the split() method
+
+	var str = "a,b,c,d,e"; // String
+	var arr = str.split(","); // Split on commas
+	console.info('split method');
+	console.log(arr);
+</script>
+
+</head>
+
+<body>
+
+	<h3>String Methods</h3>
+
+</body>
+</html>

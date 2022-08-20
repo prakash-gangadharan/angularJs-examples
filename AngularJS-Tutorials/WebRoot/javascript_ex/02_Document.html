@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>This is javascript example</title>
+
+<!-- Javascript in Head -->
+<script type="text/javascript">
+	document.writeln("<font size='10'>");
+	document.writeln("Welcome to JavaScript<br/>");
+	document.writeln("It is a lightweight programming language<br/>");
+	document.writeln("Last updated date is:"+document.lastModified);
+	document.bgColor = "lightblue";
+	document.fgColor = "blue";
+
+	function getElements() {
+		var x = document.getElementById("usr");
+		alert(x.value);
+		var y = document.getElementsByName("cat");
+		alert(y[0].value);
+		alert(y[1].value);
+		alert("Done");
+	}
+	
+</script>
+
+</head>
+
+<body>
+
+	<h3>My First JavaScript</h3>
+	<form>
+	Username: <input type="text" id="usr" value="Paypal"><br/>
+	
+	Student: <input name="cat" type="radio" value="S">
+	Staff: <input name="cat" type="radio" value="E">
+	<input type="button" value="click" onclick="getElements()">
+	</form>
+	
+</body>
+</html>

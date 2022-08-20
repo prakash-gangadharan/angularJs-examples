@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<script src="../../vendor/angular.min.js"></script>
+<script src="scripts/controller.js"></script>
+<body>
+	<!-- <div ng-app=""> -->
+	<div data-ng-app="myApp" ng-controller="myCtrl">
+			
+		<div ng-init="options = [ {
+				      'telephone_code': 263, 
+				      'country_name': 'Zimbabwe'
+				    },
+				    {
+				      'telephone_code': 93,
+				      'country_name': 'Afghanistan'
+				    },
+				    {
+				      'telephone_code': 355,
+				      'country_name': 'Albania'
+				    },
+				    {
+				      'telephone_code': 213,
+				      'country_name': 'Algeria'
+				    }]">
+								    
+	<select name="telephoneCode" id="telephoneCode" ng-model="telephoneCode" 
+	        ng-init="telephoneCode = telephoneCode || options[2].telephone_code">
+	         <option ng-repeat="option in options" ng-value="option.telephone_code">{{option.telephone_code}}</option>
+	</select>
+
+	</div>
+	
+	<div>
+		<form action="GetParameterDemo/getParameterValues" method="post">
+			User name : 
+			<input type="text" name="t1"><br></br>
+			Password :
+			<input type="text" name="t2"><br></br>
+			
+				<div ng-init="countriesCode = [ {
+			      'telephone_code': 263, 
+			      'country_name': 'Zimbabwe'
+			    },
+			    {
+			      'telephone_code': 93,
+			      'country_name': 'Afghanistan'
+			    },
+			    {
+			      'telephone_code': 355,
+			      'country_name': 'Albania'
+			    },
+			    {
+			      'telephone_code': 213,
+			      'country_name': 'Algeria'
+			    }]">
+								    
+	<select name="countryCode" id="countryCode" ng-model="telephoneCode" 
+	        ng-init="telephoneCode = telephoneCode || countriesCode[2].telephone_code">
+	         <option ng-repeat="countryCode in countriesCode" ng-value="countryCode.telephone_code">{{countryCode.telephone_code}}</option>
+	</select>
+	
+	</div>
+			<input type="Submit" value="Click Here">
+		</form>
+	
+	</div>
+	</div>
+	
+</body>
+</html>

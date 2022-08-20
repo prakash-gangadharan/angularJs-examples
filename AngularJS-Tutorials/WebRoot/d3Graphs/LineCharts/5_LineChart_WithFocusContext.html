@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.context .line {
+  stroke-width: 0.5px;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+.line.highlight {
+    fill-opacity: 1;
+    stroke-opacity: 1;
+}
+.focus .line.highlight {
+    stroke-width: 3;
+}
+.context .line.highlight {
+    stroke-width: 1.0;
+}
+
+.line.fadeout {
+    fill-opacity: 0.2;
+    stroke-opacity: 0.2;
+}
+
+</style>
+<body>
+		<script src= "../../vendor/d3/d3.min.js"></script>
+<script>
+
+var svg_main_width = 960,
+svg_main_height = 500;
+
+//Edit this to change the context to focus proportions
+var context_scale = 1 / 5;
+
+var margin = {top: 20, right: 80, bottom: 30},
+margin2 = {top: 20, bottom: 300, left: 50};
+
+var combined_render_width = svg_main_width - margin.right + 10 - margin2.left*2 - 10;
+
+margin2.right = svg_main_width -
+            Math.round(combined_render_width*(context_scale)) -
+            margin2.left;
+margin.left = svg_main_width - margin2.right + 50 + 10;
+
+var width = svg_main_width - margin.left - margin.right,
+width2 = svg_main_width - margin2.left - margin2.right,
+height = svg_main_height - margin.top - margin.bottom,
+height2 = svg_main_height - margin2.top - margin2.bottom;
+
+var parseDate = d3.time.format("%Y%m%d").parse;
+
+var x = d3.time.scale().range([0, width]),
+x2 = d3.time.scale().range([0, width2]);
+
+var y = d3.scale.linear().range([height, 0]),
+y2 = d3.scale.linear().range([height2, 0]);
+
+var color = d3.scale.category10();
+
+var xAxis = d3.svg.axis()
+.scale(x)
+.orient("bottom");
+
+var yAxis = d3.svg.axis()
+.scale(y)
+.orient("left");
+
+var yAxis2 = d3.svg.axis()
+.scale(y2)
+.orient("left");
+
+var brush = d3.svg.brush()
+.y(y2)
+.on("brush", brushed);
+
+var line = d3.svg.line()
+.interpolate("basis")
+.x(function(d) { return x(d.date); })
+.y(function(d) { return y(d.temperature); });
+
+var line2 = d3.svg.line()
+.interpolate("basis")
+.x(function(d) { return x2(d.date); })
+.y(function(d) { return y2(d.temperature); });
+
+var svg = d3.select("body").append("svg")
+.attr("width", svg_main_width)
+.attr("height", svg_main_height);
+
+svg.append("defs").append("clipPath")
+.attr("id", "clip")
+.append("rect")
+.attr("width", width)
+.attr("height", height);
+
+var focus = svg.append("g")
+.attr("class", "focus")
+.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var context = svg.append("g")
+.attr("class", "context")
+.attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+var legend = svg.append("g")
+.attr("class", "legend")
+.attr("transform", "translate(" + margin2.left + "," + (svg_main_height - margin2.bottom + 20) + ")");
+
+d3.tsv("../scripts/dataforlinecontxt.tsv", function(error, data) {
+color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
+
+data.forEach(function(d) {
+d.date = parseDate(d.date);
+});
+
+var cities = color.domain().map(function(name) {
+return {
+  name: name,
+  values: data.map(function(d) {
+    return {date: d.date, temperature: +d[name]};
+  })
+};
+});
+
+x.domain(d3.extent(data, function(d) { return d.date; }));
+x2.domain(d3.extent(data, function(d) { return d.date; }));
+
+y.domain([
+d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
+d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
+]);
+
+y2.domain(y.domain());
+
+focus.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis);
+
+focus.append("g")
+  .attr("class", "y axis")
+  .call(yAxis)
+.append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 6)
+  .attr("dy", ".71em")
+  .style("text-anchor", "end")
+  .text("Temperature (ºF)");
+
+context.append("g")
+  .attr("class", "y axis")
+  .call(yAxis2);
+
+var city = focus.selectAll(".city")
+  .data(cities)
+.enter().append("g")
+  .attr("class", "city");
+
+city.append("path")
+  .attr("class", "line")
+  .attr("clip-path", "url(#clip)")
+  .attr("d", function(d) { return line(d.values); })
+  .style("stroke", function(d) { return color(d.name); });
+
+city.append("text")
+  .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+  .attr("class", "label")
+  .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })
+  .attr("x", 3)
+  .attr("dy", ".35em")
+  .text(function(d) { return d.name; });
+
+var city2 = context.selectAll(".city")
+  .data(cities)
+.enter().append("g")
+  .attr("class", "city");
+
+city2.append("path")
+  .attr("class", "line")
+  .attr("d", function(d) { return line2(d.values); })
+  .style("stroke", function(d) { return color(d.name); });
+
+context.append("g")
+  .attr("class", "y brush")
+  .call(brush)
+.selectAll("rect")
+  .attr("x", 0)
+  .attr("width", width2);
+
+function mouseover(cityName) {
+// class lines to highlight and fadeout selected city
+d3.selectAll('path.line')
+    .classed("highlight", function(d) { return d.name === cityName; })
+    .classed("fadeout", function(d) { return d.name !== cityName; });
+
+// focus brush on specific city
+var values = cities.filter(function(d) { return d.name === cityName; })[0].values;
+brush.extent(d3.extent(values.map(function(d) { return d.temperature; })));
+d3.select('.brush').transition().duration(750).call(brush);
+brushed(750)
+}
+
+// remove highlighting classes
+function mouseout(cityName) {
+d3.selectAll('path.line')
+    .classed("highlight", false)
+    .classed("fadeout", false);
+}
+
+legendItem = legend.selectAll('.city')
+  .data(cities.map(function(d) { return d.name; }).sort())
+.enter().append("g")
+  .attr("transform", function(d, i) { return "translate(0," + i*18 + ")"; })
+  .attr("class", "city legend")
+  .on("mouseover", mouseover)
+  .on("touchstart", mouseover)
+  .on("mouseout", mouseout)
+  .on("touchend", mouseout);
+
+legendItem.append("rect")
+  .attr("width", 13)
+  .attr("height", 13)
+  .attr("fill", function(d) { return color(d); });
+
+legendItem.append("text")
+  .attr("x", 15)
+  .attr("y", 10.5)
+  .text(function(d) { return d; });
+
+});
+
+function brushed(duration) {
+if (!duration) {
+duration = 0;
+}
+
+if (brush.empty()) {
+duration = 750;
+y.domain(y2.domain());
+} else {
+y.domain(brush.extent());
+}
+
+focus.selectAll(".city")
+.selectAll("path")
+.transition().duration(duration)
+.attr("d", function(d) { return line(d.values); });
+focus.selectAll(".label")
+.transition().duration(duration)
+.attr("transform", function(d) {
+  return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")";
+});
+focus.select(".y.axis")
+.transition().duration(duration)
+.call(yAxis);
+}
+
+</script>
+</body>
+</html>

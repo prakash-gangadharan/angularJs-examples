@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../../vendor/bootstrap.min.css" rel="stylesheet">
+<script src="../../vendor/angular.min.js"></script>
+<script src="../../vendor/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<script src="../../vendor/d3/d3.min.js"></script>
+<!-- <script src= "scripts/MyController.js"></script> -->
+</head>
+<body>
+
+
+<div id="svgid">
+hello svg
+</div>
+<p class="para"></p>
+<hr>
+<!-- <div id="svgdataid"></div> -->
+
+<div id="svgArrayid"></div>
+
+<script type="text/javascript">
+
+var letters = ['zero', 'one', 'two', 'three'];
+
+
+var arrobj = [{"close":58.13,"open":3.41},{"close":53.98,"open":4.55},{"close":67.00,"open":6.78},{"close":89.70,"open":7.85},{"close":99.00,"open":8.92}];
+
+arrobj.forEach(function ShowResults(value, index, ar) {
+	console.log(value);
+	console.log(index);
+	console.log("value "+ar[index].value);
+});
+
+/* letters.forEach(function ShowResults(value, index, ar) {
+	console.log(value);
+	console.log(index);
+	console.log(ar[index]);
+}); */
+
+
+
+var dataset = [ 5, 10, 15, 20, 25 ];
+ 
+ var p = d3.select("#svgid");
+ var sp = p.append("span");
+ sp.text("New paragraph!").style("font-weight","bold");
+ 
+ /* data enter example */
+ 
+ d3.select("#"+"svgdataid").selectAll("p")
+ .data(dataset)
+ .enter()
+ .append("p")
+ /* .text("New paragraph!"); */
+ .text(function(d) {   return "I can count up to " + d; })
+ .style("color", function(d){
+	 if (d > 15) {   //Threshold of 15
+	        return "red";
+	    } else {
+	        return "green";
+	    }
+ });
+ 
+ d3.select("#"+"svgArrayid").selectAll("p")
+ .data(arrobj)
+ .enter()
+ .append("p")
+ /* .text("New paragraph!"); */
+ .text(function(d) {   return "I can count up to " + d.close +" and "+d.open; })
+ .style("color", function(d){
+	 if (d.close >60) {   //Threshold of 15
+	        return "red";
+	    } else {
+	        return "green";
+	    }
+ });		
+ </script>
+<!-- <div ng-app="myApp" ng-controller="myCtrl"> 
+
+<p>{{firstName}}</p>
+
+</div> -->
+</body>
+</html>

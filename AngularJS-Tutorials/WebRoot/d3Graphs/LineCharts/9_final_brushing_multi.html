@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+		<script src= "../../vendor/d3/d3.min.js"></script>
+		<script src= "../scripts/dataforsever.js"></script>
+</head>
+<style>
+  body {
+      font: 10px sans-serif;
+  }
+  .axis path, .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+  }
+  .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 2px;
+  }
+  .brush .extent {
+      stroke: #fff;
+      fill-opacity: .125;
+      shape-rendering: crispEdges;
+  }
+</style>
+<body>
+
+<script>
+
+var data = {
+	    "dayMap": {
+	        "20120301": {
+	            "fields": {
+	                "V": "0",
+	                    "SM": "19959",
+	                    "I": "19959",
+	                    "WM": "19959"
+	            }
+	        },
+	            "20120302": {
+	            "fields": {
+	                "V": "0",
+	                    "SM": "24929",
+	                    "I": "24929",
+	                    "WM": "22444"
+	            }
+	        },
+	            "20120303": {
+	            "fields": {
+	                "V": "0",
+	                    "SM": "26596",
+	                    "I": "26596",
+	                    "WM": "24929"
+	            }
+	        },
+	            "20120304": {
+	            "fields": {
+	                "V": "0",
+	                    "SM": "29637",
+	                    "I": "29637",
+	                    "WM": "25762"
+	            }
+	        },
+	            "20120305": {
+	            "fields": {
+	                "V": "0",
+	                    "SM": "32289",
+	                    "I": "32289",
+	                    "WM": "27054"
+	            }
+	        },
+	            "20120306": {
+	            "fields": {
+	                "V": "0",
+	                    "SM": "28045",
+	                    "I": "28045",
+	                    "WM": "27301"
+	            }
+	        },
+	            "20120307": {
+	            "fields": {
+	                "V": "0",
+	                    "SM": "26106",
+	                    "I": "26106",
+	                    "WM": "27062"
+	            }
+	        },
+	            "20120308": {
+	            "fields": {
+	                "V": "2",
+	                    "W1S": "78",
+	                    "SM": "22717",
+	                    "W1F": "19959",
+	                    "I": "25476",
+	                    "WM": "27172"
+	            }
+	        },
+	            "20120309": {
+	            "fields": {
+	                "V": "2",
+	                    "W1S": "94",
+	                    "SM": "25750",
+	                    "W1F": "24929",
+	                    "I": "26572",
+	                    "WM": "27391"
+	            }
+	        },
+	            "20120310": {
+	            "fields": {
+	                "V": "3",
+	                    "W1S": "88",
+	                    "SM": "28357",
+	                    "W1F": "26596",
+	                    "I": "30118",
+	                    "WM": "28095"
+	            }
+	        },
+	            "20120311": {
+	            "fields": {
+	                "V": "5",
+	                    "W1S": "81",
+	                    "SM": "33126",
+	                    "W1F": "29637",
+	                    "I": "36615",
+	                    "WM": "28626"
+	            }
+	        },
+	            "20120312": {
+	            "fields": {
+	                "V": "6",
+	                    "W1S": "87",
+	                    "SM": "34770",
+	                    "W1F": "32289",
+	                    "I": "37252",
+	                    "WM": "29491"
+	            }
+	        },
+	            "20120313": {
+	            "fields": {
+	                "V": "7",
+	                    "W1S": "80",
+	                    "SM": "31591",
+	                    "W1F": "28045",
+	                    "I": "35138",
+	                    "WM": "30909"
+	            }
+	        },
+	            "20120314": {
+	            "fields": {
+	                "V": "9",
+	                    "W1S": "80",
+	                    "SM": "29404",
+	                    "W1F": "26106",
+	                    "I": "32702",
+	                    "WM": "32229"
+	            }
+	        },
+	            "20120315": {
+	            "fields": {
+	                "V": "10",
+	                    "W1S": "74",
+	                    "SM": "25476",
+	                    "W1F": "22717",
+	                    "I": "30548",
+	                    "WM": "33024"
+	            }
+	        },
+	            "20120316": {
+	            "fields": {
+	                "V": "10",
+	                    "W1S": "84",
+	                    "SM": "26572",
+	                    "W1F": "25750",
+	                    "I": "30594",
+	                    "WM": "33119"
+	            }
+	        },
+	            "20120317": {
+	            "fields": {
+	                "V": "11",
+	                    "W1S": "88",
+	                    "SM": "30118",
+	                    "W1F": "28357",
+	                    "I": "32307",
+	                    "WM": "33471"
+	            }
+	        },
+	            "20120318": {
+	            "fields": {
+	                "V": "10",
+	                    "W1S": "98",
+	                    "SM": "33752",
+	                    "W1F": "33126",
+	                    "I": "33752",
+	                    "WM": "32898"
+	            }
+	        },
+	            "20120319": {
+	            "fields": {
+	                "V": "10",
+	                    "W1S": "88",
+	                    "SM": "37252",
+	                    "W1F": "34770",
+	                    "I": "39428",
+	                    "WM": "32898"
+	            }
+	        },
+	            "20120320": {
+	            "fields": {
+	                "V": "10",
+	                    "W1S": "88",
+	                    "SM": "35138",
+	                    "W1F": "31591",
+	                    "I": "35902",
+	                    "WM": "33051"
+	            }
+	        },
+	            "20120321": {
+	            "fields": {
+	                "V": "11",
+	                    "W1S": "80",
+	                    "SM": "32702",
+	                    "W1F": "29404",
+	                    "I": "36856",
+	                    "WM": "33882"
+	            }
+	        },
+	            "20120322": {
+	            "fields": {
+	                "V": "12",
+	                    "W1S": "61",
+	                    "SM": "28012",
+	                    "W1F": "25476",
+	                    "I": "41660",
+	                    "WM": "35649"
+	            }
+	        },
+	            "20120323": {
+	            "fields": {
+	                "V": "14",
+	                    "W1S": "68",
+	                    "SM": "28583",
+	                    "W1F": "26572",
+	                    "I": "39059",
+	                    "WM": "36999"
+	            }
+	        },
+	            "20120324": {
+	            "fields": {
+	                "V": "15",
+	                    "W1S": "74",
+	                    "SM": "31212",
+	                    "W1F": "30118",
+	                    "I": "40706",
+	                    "WM": "38390"
+	            }
+	        },
+	            "20120325": {
+	            "fields": {
+	                "V": "15",
+	                    "W1S": "80",
+	                    "SM": "35183",
+	                    "W1F": "33752",
+	                    "I": "42346",
+	                    "WM": "39541"
+	            }
+	        },
+	            "20120326": {
+	            "fields": {
+	                "V": "16",
+	                    "W1S": "86",
+	                    "SM": "38340",
+	                    "W1F": "37252",
+	                    "I": "43309",
+	                    "WM": "40125"
+	            }
+	        },
+	            "20120327": {
+	            "fields": {
+	                "V": "16",
+	                    "W1S": "88",
+	                    "SM": "35520",
+	                    "W1F": "35138",
+	                    "I": "40109",
+	                    "WM": "40776"
+	            }
+	        },
+	            "20120328": {
+	            "fields": {
+	                "V": "16",
+	                    "W1S": "86",
+	                    "SM": "34779",
+	                    "W1F": "32702",
+	                    "I": "38072",
+	                    "WM": "40776"
+	            }
+	        },
+	            "20120329": {
+	            "fields": {
+	                "V": "15",
+	                    "W4F": "19959",
+	                    "W1S": "78",
+	                    "W4S": "55",
+	                    "SM": "33305",
+	                    "W1F": "28012",
+	                    "I": "36062",
+	                    "WM": "40058"
+	            }
+	        },
+	            "20120330": {
+	            "fields": {
+	                "V": "14",
+	                    "W4F": "24929",
+	                    "W1S": "82",
+	                    "W4S": "72",
+	                    "SM": "32716",
+	                    "W1F": "28583",
+	                    "I": "34838",
+	                    "WM": "39459"
+	            }
+	        },
+	            "20120331": {
+	            "fields": {
+	                "V": "14",
+	                    "W4F": "26596",
+	                    "W1S": "81",
+	                    "W4S": "69",
+	                    "SM": "35516",
+	                    "W1F": "31212",
+	                    "I": "38725",
+	                    "WM": "39062"
+	            }
+	        },
+	            "20120401": {
+	            "fields": {
+	                "V": "13",
+	                    "W4F": "29637",
+	                    "W1S": "83",
+	                    "W4S": "70",
+	                    "SM": "39411",
+	                    "W1F": "35183",
+	                    "I": "42207",
+	                    "WM": "39035"
+	            }
+	        },
+	            "20120402": {
+	            "fields": {
+	                "V": "13",
+	                    "W4F": "32289",
+	                    "W1S": "83",
+	                    "W4S": "69",
+	                    "SM": "41368",
+	                    "W1F": "38340",
+	                    "I": "46462",
+	                    "WM": "39035"
+	            }
+	        },
+	            "20120403": {
+	            "fields": {
+	                "V": "12",
+	                    "W4F": "28045",
+	                    "W1S": "81",
+	                    "W4S": "64",
+	                    "SM": "38005",
+	                    "W1F": "35520",
+	                    "I": "43658",
+	                    "WM": "39744"
+	            }
+	        },
+	            "20120404": {
+	            "fields": {
+	                "V": "11",
+	                    "W4F": "26106",
+	                    "W1S": "87",
+	                    "W4S": "65",
+	                    "SM": "37464",
+	                    "W1F": "34779",
+	                    "I": "40012",
+	                    "WM": "40132"
+	            }
+	        },
+	            "20120405": {
+	            "fields": {
+	                "V": "10",
+	                    "W4F": "22717",
+	                    "W1S": "85",
+	                    "W4S": "58",
+	                    "SM": "37709",
+	                    "W1F": "33305",
+	                    "I": "39356",
+	                    "WM": "40791"
+	            }
+	        },
+	            "20120406": {
+	            "fields": {
+	                "V": "10",
+	                    "W4F": "25750",
+	                    "W1S": "76",
+	                    "W4S": "60",
+	                    "SM": "36948",
+	                    "W1F": "32716",
+	                    "I": "43017",
+	                    "WM": "41650"
+	            }
+	        },
+	            "20120407": {
+	            "fields": {
+	                "V": "10",
+	                    "W4F": "28357",
+	                    "W1S": "75",
+	                    "W4S": "60",
+	                    "SM": "39715",
+	                    "W1F": "35516",
+	                    "I": "47500",
+	                    "WM": "43071"
+	            }
+	        },
+	            "20120408": {
+	            "fields": {
+	                "V": "10",
+	                    "W4F": "33126",
+	                    "W1S": "86",
+	                    "W4S": "73",
+	                    "SM": "42276",
+	                    "W1F": "39411",
+	                    "I": "45671",
+	                    "WM": "43764"
+	            }
+	        },
+	            "20120409": {
+	            "fields": {
+	                "V": "10",
+	                    "W4F": "34770",
+	                    "W1S": "91",
+	                    "W4S": "76",
+	                    "SM": "44489",
+	                    "W1F": "41368",
+	                    "I": "45670",
+	                    "WM": "43605"
+	            }
+	        },
+	            "20120410": {
+	            "fields": {
+	                "V": "10",
+	                    "W4F": "31591",
+	                    "W1S": "83",
+	                    "W4S": "69",
+	                    "SM": "41883",
+	                    "W1F": "38005",
+	                    "I": "45534",
+	                    "WM": "43980"
+	            }
+	        },
+	            "20120411": {
+	            "fields": {
+	                "V": "10",
+	                    "W4F": "29404",
+	                    "W1S": "95",
+	                    "W4S": "75",
+	                    "SM": "38749",
+	                    "W1F": "37464",
+	                    "I": "39426",
+	                    "WM": "43863"
+	            }
+	        },
+	            "20120412": {
+	            "fields": {
+	                "V": "9",
+	                    "W4F": "25476",
+	                    "W1S": "92",
+	                    "W4S": "73",
+	                    "SM": "37709",
+	                    "W1F": "37709",
+	                    "I": "34881",
+	                    "WM": "43863"
+	            }
+	        },
+	            "20120413": {
+	            "fields": {
+	                "V": "8",
+	                    "W4F": "26572",
+	                    "W1S": "90",
+	                    "W4S": "65",
+	                    "SM": "39985",
+	                    "W1F": "36948",
+	                    "I": "40912",
+	                    "WM": "43442"
+	            }
+	        },
+	            "20120414": {
+	            "fields": {
+	                "V": "7",
+	                    "W4F": "30118",
+	                    "W1S": "86",
+	                    "W4S": "65",
+	                    "SM": "43409",
+	                    "W1F": "39715",
+	                    "I": "46112",
+	                    "WM": "43442"
+	            }
+	        },
+	            "20120415": {
+	            "fields": {
+	                "V": "6",
+	                    "W4F": "33752",
+	                    "W1S": "95",
+	                    "W4S": "76",
+	                    "SM": "43457",
+	                    "W1F": "42276",
+	                    "I": "44568",
+	                    "WM": "43222"
+	            }
+	        },
+	            "20120416": {
+	            "fields": {
+	                "V": "6",
+	                    "W4F": "37252",
+	                    "W1S": "97",
+	                    "W4S": "81",
+	                    "SM": "45818",
+	                    "W1F": "44489",
+	                    "I": "45967",
+	                    "WM": "43281"
+	            }
+	        },
+	            "20120417": {
+	            "fields": {
+	                "V": "5",
+	                    "W4F": "35138",
+	                    "W1S": "96",
+	                    "W4S": "81",
+	                    "SM": "43649",
+	                    "W1F": "41883",
+	                    "I": "43641",
+	                    "WM": "42902"
+	            }
+	        }
+	    }
+	};
+	var margin = {
+	    top: 10,
+	    right: 10,
+	    bottom: 100,
+	    left: 40
+	}, margin2 = {
+	    top: 430,
+	    right: 10,
+	    bottom: 20,
+	    left: 40
+	}, width = 960 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom,
+	    height2 = 500 - margin2.top - margin2.bottom;
+
+	var parseDate = d3.time.format("%Y%m%d")
+	    .parse;
+
+	var dispatch = d3.dispatch("pointMouseOver", "pointMouseout");
+
+	var x = d3.time.scale()
+	    .range([0, width]);
+	var x2 = d3.time.scale()
+	    .range([0, width]);
+
+	var y = d3.scale.linear()
+	    .range([height, 0]);
+	var y2 = d3.scale.linear()
+	    .range([height2, 0]);
+
+	var color = d3.scale.category10();
+
+	var xAxis = d3.svg.axis()
+	    .scale(x)
+	    .orient("bottom"),
+	    xAxis2 = d3.svg.axis()
+	        .scale(x2)
+	        .orient("bottom"),
+	    yAxis = d3.svg.axis()
+	        .scale(y)
+	        .orient("left");
+
+
+
+	yAxis.ticks(height / 100)
+	    .tickSize(-width, 0);
+
+	var brush = d3.svg.brush()
+	    .x(x2)
+	    .on('brush', brush);
+
+	var line = d3.svg.line()
+	    .interpolate("linear")
+	    .x(function (d) {
+	    return x(d.date);
+	})
+	    .y(function (d) {
+	    return y(d.value);
+	});
+
+	var line2 = d3.svg.line()
+	    .interpolate("linear")
+	    .x(function (d) {
+	    return x2(d.date);
+	})
+	    .y(function (d) {
+	    return y2(d.value);
+	});
+
+	// append svg to body
+	var svg = d3.select("body")
+	    .append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom);
+
+	svg.append("defs")
+	    .append("clipPath")
+	    .attr("id", "clip")
+	    .append("rect")
+	    .attr("width", width)
+	    .attr("height", height);
+
+
+	var focus = svg.append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	var context = svg.append("g")
+	    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+	var fields = ['V', 'W1S', 'W4S'];
+	color.domain(fields);
+	// process data
+	var dataset = data['dayMap'];
+
+	var forecasts = [];
+	var new_data = [];
+
+	$.each(dataset, function (key, value) {
+	    new_data.push(parseDate(key));
+	});
+	
+
+	fields.map(function (d) {
+	    var data_t = [];
+	    $.each(dataset, function (key, value) {
+	        if (d in value['fields']) {
+	            data_t.push({
+	                date: parseDate(key),
+	                value: +value['fields'][d]
+	            });
+	        }
+	    });
+	    forecasts.push({
+	        values: data_t,
+	        name: d
+	    });
+	});
+
+	x.domain(d3.extent(new_data, function (d) {
+	    return d;
+	}));
+
+	y.domain([0, d3.max(forecasts, function (c) {
+	    return d3.max(c.values, function (v) {
+	        return v.value;
+	    });
+	})]);
+
+	x2.domain(x.domain());
+	y2.domain(y.domain());
+
+
+	var vertices = d3.merge(forecasts.map(function (line, lineIndex) {
+	    return line.values.map(function (point, pointIndex) {
+	        return {
+	            x: point.date,
+	            y: point.value,
+	            name: line.name,
+	            pointIndex: pointIndex
+	        }
+	    });
+	}));
+
+	// set up brush
+
+	var lines = [];
+
+	var forecast = focus.selectAll(".forecast")
+	    .data(forecasts)
+	    .enter()
+	    .append("g");
+
+	forecast.append("svg:path")
+	    .attr("class", "line forecast-large")
+	    .attr("d", function (d) {
+	    lines.push(line(d.values));
+	    return line(d.values);
+	})
+	    .style("stroke", function (d) {
+	    return color(d.name);
+	});
+
+
+	forecast.selectAll("circle")
+	    .data(vertices)
+	    .enter()
+	    .append("circle")
+	    .attr("fill", function (d) {
+	    return color(d.name);
+	})
+	    .attr("r", 1)
+	    .attr("cx", function (d) {
+	    return x(d.x);
+	})
+	    .attr("cy", function (d) {
+	    return y(d.y);
+	});
+
+
+	focus.append("g")
+	    .attr("class", "x axis")
+	    .attr("transform", "translate(0," + height + ")")
+	    .call(xAxis);
+
+	focus.append("g")
+	    .attr("class", "y axis")
+	    .call(yAxis)
+	    .append("text")
+	    .attr("transform", "rotate(-90)")
+	    .attr("y", 6)
+	    .attr("dy", ".71em")
+	    .style("text-anchor", "end")
+	    .text("Impression");
+
+
+
+	var forecast = context.selectAll(".forecast")
+	    .data(forecasts)
+	    .enter()
+	    .append("g");
+
+	forecast.append("path")
+	    .attr("class", "line forecast-small")
+	    .attr("d", function (d) {
+	    return line2(d.values);
+	})
+	    .style("stroke", function (d) {
+	    return color(d.name);
+	});
+
+	context.append("g")
+	    .attr("class", "x axis")
+	    .attr("transform", "translate(0," + height2 + ")")
+	    .call(xAxis2);
+
+	context.append("g")
+	    .attr("class", "x brush")
+	    .call(brush)
+	    .selectAll("rect")
+	    .attr("y", -6)
+	    .attr("height", height2 + 7);
+
+
+	var legend = svg.selectAll(".legend")
+	    .data(fields)
+	    .enter()
+	    .append("g")
+	    .attr("class", "legend")
+	    .attr("transform", function (d, i) {
+	    return "translate(0," + i * 20 + ")";
+	});
+
+	legend.append("rect")
+	    .attr("x", width - 18)
+	    .attr("width", 18)
+	    .attr("height", 18)
+	    .style("fill", color);
+
+	legend.append("text")
+	    .attr("x", width - 24)
+	    .attr("y", 9)
+	    .attr("dy", ".35em")
+	    .style("text-anchor", "end")
+	    .text(function (d) {
+	    return d;
+	});
+
+
+	function brush() {
+	    x.domain(brush.empty() ? x2.domain() : brush.extent());
+	    focus.selectAll("path.forecast-large")
+	        .attr("d", function (d) {
+	        return line(d.values);
+	    });
+
+	    focus.selectAll("circle")
+	        .attr("r", 1)
+	        .attr("cx", function (d) {
+	        return x(d.x);
+	    })
+	        .attr("cy", function (d) {
+	        return y(d.y);
+	    });
+	    focus.select(".x.axis")
+	        .call(xAxis);
+	}
+</script>
+
+</body>
+
+</html>

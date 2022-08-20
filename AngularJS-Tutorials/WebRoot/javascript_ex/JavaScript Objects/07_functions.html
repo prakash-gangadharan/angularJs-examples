@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+	<p>In this example, myFunction is a function constructor:</p>
+
+	<p id="demo"></p>
+	<p id="demo1"></p>
+	<p id="demo2"></p>
+
+	<script>
+		function myFunction(arg1, arg2) {
+			this.firstName = arg1;
+			this.lastName = arg2;
+			this.func = function() {
+				return this.firstName + " " + this.lastName;
+			};
+			this.fav = function() {
+				return this.firstName + " ---------  ---- " + this.lastName;
+			};
+		}
+
+		var x = new myFunction("John", "Doe")
+		document.getElementById("demo").innerHTML = x.func();
+		var y = new myFunction("prakash", "ganga")
+		document.getElementById("demo1").innerHTML = y.func();
+		var z = new myFunction("palani", "kumar")
+		document.getElementById("demo2").innerHTML = z.fav();
+	</script>
+
+</body>
+</html>
+
+

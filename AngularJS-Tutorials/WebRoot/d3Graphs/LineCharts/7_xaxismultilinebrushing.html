@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+		<script src= "../../vendor/d3/d3.min.js"></script>
+		<script src= "../scripts/dataforsever.js"></script>
+</head>
+<style>
+svg {
+  font: 10px sans-serif;
+}
+
+#csvdata {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1px;
+  clip-path: url(#clip);
+  stroke: red;
+}
+.line:nth-of-type(2) {
+  stroke: blue;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+</style>
+<body>
+
+<p>Use the brush (bottom) to focus the main chart, then <a id="addLine" href="#">add second line</a>.</p>
+
+<pre id="csvdata">
+date,price,price2
+Jan 2000,1394.46,
+Feb 2000,1366.42,
+Mar 2000,1498.58,
+Apr 2000,1452.43,
+May 2000,1420.6,
+Jun 2000,1454.6,1366.6
+Jul 2000,1430.83,1175.83
+Aug 2000,1517.68,1395.68
+Sep 2000,1436.51,1391.51
+Oct 2000,1429.4,1139.4
+Nov 2000,1314.95,1101.95
+Dec 2000,1320.28,1114.28
+Jan 2001,1366.01,1322.01
+Feb 2001,1239.94,1012.94
+Mar 2001,1160.33,1054.33
+Apr 2001,1249.46,962.46
+May 2001,1255.82,1069.82
+Jun 2001,1224.38,1132.38
+Jul 2001,1211.23,929.23
+Aug 2001,1133.58,997.58
+Sep 2001,1040.94,949.94
+Oct 2001,1059.78,838.78
+Nov 2001,1139.45,871.45
+Dec 2001,1148.08,949.08
+Jan 2002,1130.2,964.2
+Feb 2002,1106.73,915.73
+Mar 2002,1147.39,1068.39
+Apr 2002,1076.92,984.92
+May 2002,1067.14,954.14
+Jun 2002,989.82,699.82
+Jul 2002,911.62,752.62
+Aug 2002,916.07,814.07
+Sep 2002,815.28,536.28
+Oct 2002,885.76,791.76
+Nov 2002,936.31,642.31
+Dec 2002,879.82,648.82
+Jan 2003,855.7,825.7
+Feb 2003,841.15,688.15
+Mar 2003,848.18,555.18
+Apr 2003,916.92,813.92
+May 2003,963.59,763.59
+Jun 2003,974.5,880.5
+Jul 2003,990.31,774.31
+Aug 2003,1008.01,851.01
+Sep 2003,995.97,856.97
+Oct 2003,1050.71,961.71
+Nov 2003,1058.2,904.2
+Dec 2003,1111.92,903.92
+Jan 2004,1131.13,860.13
+Feb 2004,1144.94,1059.94
+Mar 2004,1126.21,1085.21
+Apr 2004,1107.3,858.3
+May 2004,1120.68,868.68
+Jun 2004,1140.84,1089.84
+Jul 2004,1101.72,910.72
+Aug 2004,1104.24,1047.24
+Sep 2004,1114.58,963.58
+Oct 2004,1130.2,1090.2
+Nov 2004,1173.82,950.82
+Dec 2004,1211.92,958.92
+Jan 2005,1181.27,997.27
+Feb 2005,1203.6,1138.6
+Mar 2005,1180.59,981.59
+Apr 2005,1156.85,875.85
+May 2005,1191.5,946.5
+Jun 2005,1191.33,1164.33
+Jul 2005,1234.18,1135.18
+Aug 2005,1220.33,1121.33
+Sep 2005,1228.81,1120.81
+Oct 2005,1207.01,1095.01
+Nov 2005,1249.48,988.48
+Dec 2005,1248.29,1038.29
+Jan 2006,1280.08,992.08
+Feb 2006,1280.66,1025.66
+Mar 2006,1294.87,1187.87
+Apr 2006,1310.61,1256.61
+May 2006,1270.09,1019.09
+Jun 2006,1270.2,1226.2
+Jul 2006,1276.66,981.66
+Aug 2006,1303.82,1055.82
+Sep 2006,1335.85,1092.85
+Oct 2006,1377.94,1161.94
+Nov 2006,1400.63,1265.63
+Dec 2006,1418.3,1166.3
+Jan 2007,1438.24,1281.24
+Feb 2007,1406.82,1247.82
+Mar 2007,1420.86,1301.86
+Apr 2007,1482.37,1444.37
+May 2007,1530.62,1391.62
+Jun 2007,1503.35,1411.35
+Jul 2007,1455.27,1401.27
+Aug 2007,1473.99,1336.99
+Sep 2007,1526.75,1444.75
+Oct 2007,1549.38,1320.38
+Nov 2007,1481.14,1287.14
+Dec 2007,1468.36,1286.36
+Jan 2008,1378.55,1137.55
+Feb 2008,1330.63,1078.63
+Mar 2008,1322.7,1237.7
+Apr 2008,1385.59,1107.59
+May 2008,1400.38,1247.38
+Jun 2008,1280,1174
+Jul 2008,1267.38,1135.38
+Aug 2008,1282.83,993.83
+Sep 2008,1166.36,866.36
+Oct 2008,968.75,719.75
+Nov 2008,896.24,866.24
+Dec 2008,903.25,651.25
+Jan 2009,825.88,531.88
+Feb 2009,735.09,448.09
+Mar 2009,797.87,583.87
+Apr 2009,872.81,783.81
+May 2009,919.14,831.14
+Jun 2009,919.32,633.32
+Jul 2009,987.48,733.48
+Aug 2009,1020.62,806.62
+Sep 2009,1057.08,805.08
+Oct 2009,1036.19,783.19
+Nov 2009,1095.63,868.63
+Dec 2009,1115.1,1041.1
+Jan 2010,1073.87,1039.87
+Feb 2010,1104.49,1018.49
+Mar 2010,1140.45,1115.45
+Apr 2010,,1105.21
+May 2010,,981.82
+Jun 2010,,946.1
+Jul 2010,,940.3
+</pre>
+<script>
+var margin = {top: 10, right: 10, bottom: 100, left: 40},
+margin2 = {top: 430, right: 10, bottom: 20, left: 40},
+width = 960 - margin.left - margin.right,
+height = 500 - margin.top - margin.bottom,
+height2 = 500 - margin2.top - margin2.bottom;
+
+var parseDate = d3.time.format("%b %Y").parse;
+
+//Data displayed on the chart.
+var chart_data = new Array();
+
+//Data not necessarily used on the chart.
+var line_data = new Array();
+
+var x = d3.time.scale().range([0, width]),
+x2 = d3.time.scale().range([0, width]),  //x2 axis
+y = d3.scale.linear().range([height, 0]),
+y2 = d3.scale.linear().range([height2, 0]); //y2 axis
+
+var xAxis = d3.svg.axis().scale(x).orient("bottom"),
+xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),  //x axis2
+yAxis = d3.svg.axis().scale(y).orient("left");
+
+var brush = d3.svg.brush()
+.x(x2)							//x2 axis
+.on("brush", brushed);
+
+var focusLine = d3.svg.line()
+.x(function(d) { return x(d.date); })
+.y(function(d) { return y(d.price); })
+.defined(function(d) { return d.price; });
+
+var contextLine = d3.svg.line()
+.x(function(d) { return x2(d.date); })
+.y(function(d) { return y2(d.price); })
+.defined(function(d) { return d.price; });   // context line
+
+var svg = d3.select("body").append("svg")
+.attr("width", width + margin.left + margin.right)
+.attr("height", height + margin.top + margin.bottom);
+
+svg.append("defs").append("clipPath")
+.attr("id", "clip")
+.append("rect")
+.attr("width", width)
+.attr("height", height);
+
+var focus = svg.append("g")
+.attr("class", "focus")
+.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var context = svg.append("g")
+.attr("class", "context")
+.attr("transform", "translate(" + margin2.left + "," + margin2.top + ")"); //context 
+
+
+var csvdata_raw = d3.select("#csvdata").text();
+var csvdata = d3.csv.parse(csvdata_raw, type);
+
+//Split data into two separate arrays, one per line.
+line_data.push(new Array());
+line_data.push(new Array());
+csvdata.forEach(function(d) {
+if (d.price) {
+line_data[0].push({date: d.date, price: d.price}); 
+};
+if (d.price2) {
+line_data[1].push({date: d.date, price: d.price2}); 
+};
+});
+
+//Get min and max of all dates for all the lines.
+x.domain([
+d3.min(csvdata, function(d) {
+    return d.date;
+    
+}),
+d3.max(csvdata, function(d) {
+    return d.date;
+})
+]);
+
+//Get 0 and max of all prices for all the lines.
+y.domain([
+0,
+d3.max(csvdata, function(d) {
+    return d.price;     
+})
+]);
+
+x2.domain(x.domain());  //x2 domain
+y2.domain(y.domain());  //y2 domain
+
+chart_data.push(line_data[0]);
+drawChart();
+
+document.getElementById('addLine').addEventListener('click', addSecondLine);
+
+function drawChart() {
+svg = d3.selectAll('svg').data([chart_data]);
+
+updateScales();
+renderAxes();
+renderLines('focus');
+renderBrush();
+}
+
+function updateScales() {
+// Get 0 and max of all prices for all the lines.
+y.domain([
+0,
+d3.max(chart_data, function(line) {
+  return d3.max(line, function(d) {
+    return d.price;
+  })
+})
+]);
+}
+
+function renderAxes() {
+
+if (d3.select('.x.axis').empty()) {
+focus.append("g")
+    .attr("class", "x axis");
+
+focus.append("g")
+    .attr("class", "y axis");
+
+context.append("g")
+    .attr("class", "x axis");
+};
+
+focus.select('.x.axis')
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis);
+
+ focus.select('.y.axis')
+  .call(yAxis);
+
+context.select('.x.axis')
+  .attr("transform", "translate(0," + height2 + ")")
+  .call(xAxis2);
+}
+
+
+//chart can be either 'focus' or 'context'.
+function renderLines(chart) {
+if (chart == 'context') {
+var chartEl = context;
+var chartLine = contextLine;
+} else {
+var chartEl = focus;
+var chartLine = focusLine;
+}
+
+var line = chartEl.selectAll('path.line')
+                .data(chart_data);
+
+line.enter().append('path')
+    .attr("class", "line");
+
+line.transition()
+        .attr('d', function(d) { return chartLine(d); });
+
+line.exit().remove();
+};
+
+function renderBrush() {
+// So that we don't draw another brush when updating an existing chart:
+if (d3.select('g.brush').empty()) {
+
+renderLines('context');
+
+context.append("g")
+    .attr("class", "x brush")
+    .call(brush)
+  .selectAll("rect")
+    .attr("y", -6)
+    .attr("height", height2 + 7);
+} else {
+renderLines('context');
+};
+}
+
+function brushed() {
+x.domain(brush.empty() ? x2.domain() : brush.extent());
+focus.selectAll("path.line").attr("d", focusLine);
+focus.select(".x.axis").call(xAxis);
+}
+
+function type(d) {
+d.date = parseDate(d.date);
+d.price = +d.price;
+d.price2 = +d.price2;
+return d;
+}
+
+function addSecondLine() {
+chart_data.push(line_data[1]);
+drawChart();
+}
+
+</script>
+
+</body>
+
+</html>

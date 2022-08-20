@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DOM</title>
+
+<!-- Javascript in Head -->
+<script type="text/javascript">
+
+	/*document.getElementById*/
+	function getcube() {
+		var number = document.getElementById("number").value;
+		alert(number * number * number);
+	}
+	
+	/*document.getElementsByName*/
+	function totalelements() {
+		var allgenders = document.getElementsByName("gender");
+		console.log(allgenders[0].value);
+		console.log(allgenders[1].value);
+		alert("Total Genders:" + allgenders.length);
+	}
+	
+
+	function showcommentform() {
+		var data = "Name:<input type='text' name='name'><br>Comment:<br>"
+				+ "<textarea rows='5' cols='80'></textarea><br>"
+				+ "<input type='submit' value='Post Comment'>";
+		document.getElementById('mylocation').innerHTML = data;
+	}
+
+	/* validate example */
+	function validate() {
+		var msg;
+		if (document.myForm.userPass.value.length > 5) {
+			msg = "good";
+		} else {
+			msg = "poor";
+		}
+		document.getElementById('strength').innerText = msg;
+	}
+</script>
+
+</head>
+<body>
+	<h3>onclick of a anchor tag</h3>
+
+	<form name="myForm">
+		Enter No:<input type="text" id="number" name="number">
+		<input type="button" value="cube" onclick="getcube()" /><br /><br /><hr>
+		
+		Male:<input type="radio" name="gender" value="male">
+		Female:<input type="radio" name="gender" value="female">
+		
+		<input type="button" onclick="totalelements()" value="Total Genders"><br/><br/><hr>
+		
+		
+		<input type="button" value="comment" onclick="showcommentform()">  
+		<div id="mylocation"></div><br/><hr>
+		
+		
+		<!-- A validation example -->
+		<input type="password" value="" name="userPass" onkeyup="validate()">  
+		Strength:<span id="strength">no strength</span>
+		  
+
+	</form>
+</body>
+</html>

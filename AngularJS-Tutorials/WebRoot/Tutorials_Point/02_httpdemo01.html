@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<script src="../vendor/angular.min.js"></script>
+<body>
+
+	<div ng-app="myApp" ng-controller="customersCtrl">
+
+		<button ng-click="go()">POST data</button>
+		<p>{{persons}}</p><br/>
+
+		<button ng-click="toggle()">GET data</button>
+		<p ng-hide="myVar">{{servletdata}}</p>
+
+	</div>
+
+	<script>
+		var app = angular.module('myApp', []);
+
+		app.controller('customersCtrl', function($scope, $http) {
+
+			$scope.go = function() {
+				$http({
+					//  url: 'http://23.23.129.228/getLocations.php',
+					url : '../ControllerServlet',
+					method : "POST"
+				}).success(function(data, status, headers, config) {
+					$scope.persons = data;
+				}).error(function(data, status, headers, config) {
+					$scope.status = status;
+				});
+
+			};
+
+			$scope.myVar = true;
+
+			$scope.toggle = function() {
+				$scope.myVar = !$scope.myVar;
+				$http({
+					//  url: 'http://23.23.129.228/getLocations.php',
+					url : '../ControllerServlet',
+					method : "GET"
+				}).success(function(data, status, headers, config) {
+					$scope.servletdata = data;
+				}).error(function(data, status, headers, config) {
+					$scope.status = status;
+				});
+			};
+
+		});
+	</script>
+
+</body>
+</html>

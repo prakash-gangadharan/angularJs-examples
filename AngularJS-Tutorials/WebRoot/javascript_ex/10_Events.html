@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Events</title>
+
+<!-- Javascript in Head -->
+<script type="text/javascript">
+	function singleClick() {
+		alert('Hi one click');
+	}
+
+	function dblclick() {
+		alert('Hi, double click');
+	}
+
+	function displayCEO(chkbox) {
+		console.log("c");
+		if (chkbox.checked == true) {
+			alert(chkbox.value);
+		}
+	}
+
+	function displayWonders() {
+		document.frm.submit();
+	}
+
+	function selectedPlanet(select) {
+		alert("The selected option is : " + select.value);
+	}
+
+	/* Mouse events */
+
+	function openEye() {
+		console.log("calling bulb on");
+		document.getElementById("pic").src = "./scripts/pic_bulbon.gif";
+	}
+
+	function closeEye() {
+		console.log("calling bulb off");
+		document.getElementById("pic").src = "./scripts/pic_bulboff.gif";
+		window.opener.document.frm.country.value ='usa';
+		window.self.close();
+	}
+</script>
+
+</head>
+
+<body>
+
+	<h3>Events</h3>
+
+	<h3>onclick & dblclick of a buttom</h3>
+	<input type="button" value="Hi" onclick="singleClick()"><br /><br />
+	<input type="button" value="Hi Hi" ondblclick="dblclick()"><hr>
+
+	<h3>onclick of a checkbox</h3>
+	Apple
+	<input type="checkbox" value="Tim cook" onclick="displayCEO(this);">
+	Microsoft
+	<input type="checkbox" value="Bill gates" onclick="displayCEO(this);">
+	Dell
+	<input type="checkbox" value="Michael Dell" onclick="displayCEO(this);">
+	<hr>
+
+
+	<h3>onclick of a Radio button</h3>
+	<input type="radio" name="bgc" onclick="document.bgColor='red'">
+	red
+	<input type="radio" name="bgc" onclick="document.bgColor='Green'">
+	Green
+	<input type="radio" name="bgc" onclick="document.bgColor='white'">
+	white
+	<hr />
+
+	<h3>onclick of a anchor tag</h3>
+	<form name="frm" action="./scripts/seven_wonders.jpg">
+		<a href="#" onclick="displayWonders()">Wonders of world</a>
+		<!-- # represents its a link that links to nowhere -->
+	</form>
+
+	<hr>
+	<h3>onchange of a select tag</h3>
+	<label for="planet">Where do you want to live?</label>
+	<select name="planet" onchange="selectedPlanet(this)">
+		<option value="s">Sun</option>
+		<option value="m">Mercury</option>
+		<option value="v">Venus</option>
+		<option value="e">Earth</option>
+		<option value="ma">Mars</option>
+	</select>
+
+	<hr>
+	<h3>Mouse events</h3>
+
+	<form>
+		<img id="pic" src="./scripts/pic_bulboff.gif" width="180" height="200"
+			onmouseover="openEye()" onmouseout="closeEye()">
+	</form>
+
+
+
+
+</body>
+</html>

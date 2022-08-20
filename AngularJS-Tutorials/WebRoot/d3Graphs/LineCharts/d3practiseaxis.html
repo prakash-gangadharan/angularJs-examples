@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../../vendor/bootstrap.min.css" rel="stylesheet">
+<script src="../../vendor/angular.min.js"></script>
+<script src="../../vendor/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<script src="../../vendor/d3/d3.min.js"></script>
+<!-- <script src= "scripts/MyController.js"></script> -->
+</head>
+<body>
+
+
+<div id="svgid">
+hello svg
+</div>
+<div id="svgdataid">
+hello data
+</div>
+<p class="para"></p>
+ 
+<script type="text/javascript">
+
+//var dataset = [ 5, 10, 15, 20, 25 ];
+var dataset = [];                        //Initialize empty array
+for (var i = 0; i < 25; i++) {           //Loop 25 times
+	console.log("Math.random()");
+	console.log(Math.random());
+	var newNumber = Math.random() * 30;  //New random number (0-30)
+	console.log("newNumber");
+	console.log(newNumber);
+	dataset.push(newNumber);             //Add new number to array
+}
+ 
+ var p = d3.select("#svgid");
+ var sp = p.append("span");
+ sp.text("New paragraph!").style("font-weight","bold");
+ 
+ d3.select("#"+"svgdataid").selectAll("p")
+ .data(dataset)
+ .enter()
+ .append("p")
+ 
+ /* .text("New paragraph!"); */
+ .text(function(d) {   return "I can count up to " + d; })
+ .style("color", function(d){
+	 if (d > 15) {   //Threshold of 15
+	        return "red";
+	    } else { 
+	        return "green";
+	    }
+	 
+ });
+
+ </script>
+<!-- <div ng-app="myApp" ng-controller="myCtrl"> 
+
+<p>{{firstName}}</p>
+
+</div> -->
+</body>
+</html>

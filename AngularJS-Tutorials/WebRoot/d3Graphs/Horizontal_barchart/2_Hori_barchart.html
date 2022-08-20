@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.chart div {
+	font: 10px sans-serif;
+	background-color: steelblue;
+	text-align: right;
+	padding: 3px;
+	margin: 1px;
+	color: white;
+}
+</style>
+<div class="chart"></div>
+		<script src= "../../vendor/d3/d3.min.js"></script><script>
+
+var data = [
+            {name: "Greg", score: 98},
+            {name: "Ari", score: 96},
+            {name: 'Q', score: 75},
+            {name: "Loser", score: 48}
+          ];
+          
+var svg = d3.select(".chart")
+.append('svg')
+.style('width', '100%');
+
+
+var margin = 20,
+barHeight = 20+10,
+barPadding = 5+20;
+
+// setup variables
+//var width = d3.select(ele[0]).node().offsetWidth - margin,
+var width = 500,
+    // calculate the height
+    height = data.length * (barHeight + barPadding),
+    // Use the category20() scale function for multicolor support
+    color = d3.scale.category20(),
+    // our xScale
+    xScale = d3.scale.linear()
+    			.domain([0, d3.max(data, function(d) {
+    				return d.score;
+    			})])
+    			.range([0, width]);
+    			
+    // set the height based on the calculations above
+    
+    svg.attr('height', height);
+      
+	// Create the rectangles for the bar chart
+	svg.selectAll('rect')
+		.data(data).enter()
+	    .append('rect')
+	    .attr('height', barHeight)
+	    .attr('width', 140)
+	    .attr('x', Math.round(margin/2))
+	    .attr('y', function(d,i) {
+	    	console.log(i);
+	    	console.log((barHeight + barPadding));
+	      return i * (barHeight + barPadding);
+	    })
+	    .attr('fill', function(d) { return color(d.score); })
+	      .attr('width', function(d) {
+	        return xScale(d.score);
+	      });
+
+</script>

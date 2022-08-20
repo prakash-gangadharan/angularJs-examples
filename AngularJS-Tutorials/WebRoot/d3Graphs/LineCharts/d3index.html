@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../../vendor/bootstrap.min.css" rel="stylesheet">
+<script src="../../vendor/angular.min.js"></script>
+<script src="../../vendor/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<script src="../../vendor/d3/d3.min.js"></script>
+<!-- <script src="scripts/MyController.js"></script> -->
+</head>
+<body>
+	<div class="test">hello test</div>
+	<div id="svdid">hello svg</div>
+	<p class="para"></p>
+	<h1>heal</h1>
+
+	<script type="text/javascript">
+ 
+ d3.select(".test").append("p").html("hello append paragraph");
+ var svg = d3.select("#svdid").append("svg")
+								.attr("width", 100)
+								.attr("height",100)
+								.append("g")
+								.append("circle").attr("cx",25).attr("cy",25).attr("r",15);
+ 
+ svg.append("g").append("circle").attr("cx",25).attr("cy",25).attr("r",15);
+ 
+ var p = d3.select(".para");
+ var sp = p.append("span");
+ sp.text("New paragraph!").style("font-weight","bold");
+ 
+
+d3.selectAll("p").style("background-color","aliceblue");
+d3.selectAll("span").style("background-color","pink");
+
+d3.selectAll("h1").style("background-color","lawngreen")
+ 
+/*  d3.select("body").append("p").html("First paragraph");
+ d3.select("body").append("p").html("Second paragraph").attr("class","p2");
+ d3.select("body").append("p").html("Third paragraph").attr("id","p3");
+ 
+ d3.select("."+"p2").html("I'm classy");
+ d3.select("#"+"p3").html("I've got ideas");
+ 
+d3.select(".p2").style("color","red")
+ 
+d3.select("#"+"p3").style("color","blue") */
+ </script>
+	<!-- <div ng-app="myApp" ng-controller="myCtrl"> 
+
+<p>{{firstName}}</p>
+
+</div> -->
+</body>
+</html>

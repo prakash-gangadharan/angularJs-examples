@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+	<p>Creating a JavaScript Object.</p>
+	<h2>
+		The values are written as name:value pairs (name and value separated
+		by a colon). <br> Note JavaScript objects are containers for
+		named values.
+	</h2>
+	<p id="demo"></p>
+	<p id="t1"></p>
+	<p id="t2"></p>
+
+	<script>
+		var car = {
+			type : "Fiat",
+			model : 500,
+			colur : "white"
+		};
+		document.getElementById("demo").innerHTML = car.type;
+		document.getElementById("t1").innerHTML = car.colur;
+		document.getElementById("t2").innerHTML = car.model;
+	</script>
+
+</body>
+</html>

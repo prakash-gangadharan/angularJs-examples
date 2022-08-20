@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<script src="../../vendor/angular.min.js"></script>
+<body>
+<div ng-app="" >
+
+	<div ng-init="t1=true">
+	
+	<h1>Directives</h1>
+	
+	<h4>i) ng-disabled</h4>
+
+		<p><button ng-disabled="t1">Click Me!</button></p>
+
+		<input type="checkbox" ng-model="t1">Click Here <br>{{t1}}
+	</div><hr/>
+	
+	<h4>ii) ng-show</h4>
+	<div ng-init="hour=11">
+
+		<p ng-show="hour > 10">hour greater than 10.</p>
+
+		<p ng-show="t2">I am visible.</p>
+
+		<p ng-show="!t2">I am not visible.</p>
+
+		<input type="checkbox" ng-model="t2">Click Here <br>{{t2}}
+	</div><hr/>
+	
+	
+	<h4>ii) ng-hide</h4>
+	<div>
+
+		<p ng-hide="t3">I am not visible.</p>
+
+		<p ng-hide="!t3">I am visible.</p>
+
+		<input type="checkbox" ng-model="t3">hide = {{t3}}
+	</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Message Box</title>
+
+<!-- Javascript in Head -->
+<script type="text/javascript">
+function SumOfTwo(){
+	var a = prompt("Type the first number", "");
+	var b = prompt("Type the second number", "");
+	alert(parseInt(a)+parseInt(b));
+	var ch = confirm("Do you want to continue?");
+	if(ch==true){
+		SumOfTwo();
+	}
+}
+
+</script>
+
+</head>
+
+<body>
+
+	<h3>My First JavaScript</h3>
+	<form>
+	
+	<input type="button" value="Addition of two numbers" onclick="SumOfTwo()">
+	</form>
+
+</body>
+</html>

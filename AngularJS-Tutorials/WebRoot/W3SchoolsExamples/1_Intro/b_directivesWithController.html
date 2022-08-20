@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="../../vendor/angular.min.js"></script>
+<script src="scripts/controller.js"></script>
+<script src="scripts/directive.js"></script>
+</head>
+<body>
+	<div ng-app="myApp" ng-controller="myCtrl2">
+
+		<h4>ng-repeat directive repeats an HTML element:</h4>
+		
+		<div ng-init="fNames=['Jani','Hege','Neeson']">
+			<ul>
+				<li ng-repeat="x in fNames">{{ x }}</li>
+			</ul>
+
+			<h5>Arrays</h5>
+			<p>{{fNames[0]}}</p>
+			<input type="text" ng-model="fNames[1]">
+			<p ng-bind="fNames[2]"></p>
+
+		</div>
+		<hr />
+
+		<h4>ng-repeat directive actually clones HTML elements once for each item in a collection.</h4>
+		<h5>Arrays of objects</h5>
+		<div ng-init="names=[
+					{name:'Jani',country:'Norway'},
+					{name:'Hege',country:'Sweden'},
+					{name:'Kai',country:'Denmark'}]">
+			<ul>
+				<li ng-repeat="x in names">{{ x.name + ', ' + x.country }}</li>
+			</ul>
+		</div>
+		<hr />
+		
+		
+		<p ng-repeat="x in scopeNames">{{x.fname+" "+x.lname}}</p>
+		<hr />
+		
+
+		<h4>We can use the module to add your own directives to your applications</h4>
+		<h4>can invoke a directive by using:
+		<ul>
+				<li>Element name</li>
+				<li>Attribute</li>
+				<li>Class</li>
+				<li>Comment</li>
+		</ul></h4>
+		
+<!-- 		E for Element name
+		    A for Attribute
+		    C for Class
+		    M for Comment
+		
+		By default the value is EA,  -->
+		
+	<!-- Element name -->
+	<w3-directive-element-and-attribute></w3-directive-element-and-attribute>
+	
+	<!-- Attribute -->
+	<div w3-directive-element-and-attribute ></div>
+	
+	<!-- Class -->
+	<div class="w3-directive-class"></div>
+	
+	<!-- Comment -->
+	<!-- directive: w3-directive-comment -->
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html ng-app="plunker">
+  <head>
+    <script src="../../vendor/angular.min.js"></script>
+    <script src="../../vendor/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <link href="../../vendor/bootstrap.min.css" rel="stylesheet">
+    <script src="accordioan.js"></script>
+  </head>
+  <body>
+
+ <div class="mycontainer" ng-controller="MainController">
+        <div class="left-nav">
+            <accordion close-others="true" >
+                  <accordion-group  is-open="isopen"
+                      ng-repeat="item in items" 
+                      ng-controller="ItemController">
+                      <accordion-heading >
+                        {{item.desc}} - {{isopen}}
+                          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+                      </accordion-heading>
+
+                      <div ng-repeat="subitem in item.subitems">{{subitem.desc}}</div>
+                  </accordion-group>
+              </accordion>
+        </div>
+
+        <div class="content">
+        </div>
+    </div>
+  </body>
+</html>
