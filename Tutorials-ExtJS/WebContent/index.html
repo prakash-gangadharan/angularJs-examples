@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+   <head>
+   <title>ExtJS Tutorial</title>
+
+   </head>
+   <body>
+      <div id="helloWorldPanel"></div>
+
+      <script type="text/javascript" src="vendor/extjs/ext-all.js"></script>
+      <script type="text/javascript">
+         Ext.onReady(function() {
+         Ext.create('Ext.Panel', {
+            renderTo: 'helloWorldPanel',
+            height: 100,
+            width: 200,
+            title: 'Hello world',
+            html: 'First Ext JS Hello World Program'
+            });
+         });
+      </script>
+      
+   </body>
+</html>

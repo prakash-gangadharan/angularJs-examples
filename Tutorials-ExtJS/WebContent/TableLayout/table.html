@@ -1,0 +1,52 @@
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Stateful Array Grid Example</title>
+
+    <!-- ** CSS ** -->
+    <!-- base library -->
+    <link rel="stylesheet" type="text/css" href="../vendor/css/ext-all.css" />
+
+
+    <!-- ** Javascript ** -->
+    <!-- ExtJS library: base/adapter -->
+    <script type="text/javascript" src="../vendor/extjs/ext-base.js"></script>
+
+    <!-- ExtJS library: all widgets -->
+    <script type="text/javascript" src="../vendor/extjs/ext-all.js"></script>
+</head>
+<body>
+	
+	<div id='panel'></div>
+
+     <script type="text/javascript">
+
+     function makeChildren(ownerTitle) {
+       return nestedChildItems =  [
+         {
+           xtype : 'panel',
+           title : 'Child Panel 1',
+           html  : 'Panels can contain Children',
+           frame : true
+         }
+       ];
+
+     }
+     Ext.onReady(function() {
+       new Ext.Panel({
+         renderTo : Ext.getBody(),
+         title    : 'Panel 1',
+         width    : 200,
+         height   : 180,
+         html	  : 'hello world' 
+       });
+
+
+
+     });
+    	
+
+     </script>
+</body>
+</html>

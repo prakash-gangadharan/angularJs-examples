@@ -1,0 +1,176 @@
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Add combobox to a window and set width</title>
+
+    <!-- ** CSS ** -->
+    <!-- base library -->
+    <link rel="stylesheet" type="text/css" href="../vendor/css/ext-all.css" />
+
+
+    <!-- ** Javascript ** -->
+    <!-- ExtJS library: base/adapter -->
+    <script type="text/javascript" src="../vendor/extjs/ext-base.js"></script>
+
+    <!-- ExtJS library: all widgets -->
+    <script type="text/javascript" src="../vendor/extjs/ext-all.js"></script>
+</head>
+<body>
+	
+	<div id='div1'>asdf</div>
+
+     <script type="text/javascript">
+
+		Ext.Ajax.request({
+			url: './addUpdateGridProperties',
+			params: {
+				templateId: ( (params.templateId==-1)?null:Ext.getCmp('comboGridPropsTemplate').getValue() ),
+				templateName: params.templateName || Ext.getCmp('comboGridPropsTemplate').getRawValue(),
+				projectCode: gptProjectCode,
+				moduleId: gptModuleId,
+				gridId: gptGridCode,
+				columnProperties: Ext.encode(columnProperties)
+			},
+			success: function(response) {
+				var jsonData = Ext.util.JSON.decode( response.responseText);
+				
+				// load the templates store & set the new template in the combo
+				loadGridPropsStore( function(){
+					if( jsonData.data.templateId > 0 ){
+						Ext.getCmp('comboGridPropsTemplate').setValue( jsonData.data.templateId );
+					}
+				});
+				
+				if( ! jsonData.success ){
+					showInfoWindow({title:'Error', msg:jsonData.errorMessage});
+					
+					if( params.operation == 'NEW' ){
+						getNewTemplatename();
+					}
+				}else{
+					showInfoWindow({title:'Message', msg:jsonData.data.message});
+				}
+			},
+			failure: function() {
+				showInfoWindow({title:'Error', msg:'Error while saving Grid properties.'});
+			}
+		});
+		
+		
+		
+		Ext.Ajax.request({
+			url: './saveTemplateAsDefault',
+			params: {
+				projectCode: gptProjectCode,
+				gridCode: gptGridCode,
+				templateId: Ext.getCmp('comboGridPropsTemplate').getValue()
+			},
+			success: function(response) {
+				var jsonData = Ext.util.JSON.decode( response.responseText);
+				
+				if( jsonData.success ){
+					showInfoWindow({title:'Message', msg:jsonData.data.message});
+				}else{
+					showInfoWindow({title:'Error', msg:jsonData.errorMessage});
+				}
+			},
+			failure: function() {
+				showInfoWindow({title:'Error', msg:'Error while loading Grid properties.'});
+			}
+		});
+		
+		
+		
+		Ext.Ajax.request({
+			url: './getGridProperties',
+			params: {
+				templateId: Ext.getCmp('comboGridPropsTemplate').getValue()
+			},
+			success: function(response) {
+				var jsonData = Ext.util.JSON.decode( response.responseText);
+				
+				if( ! jsonData.allColumnProperties ){
+					showInfoWindow({title:'Error', msg:'Error while loading Grid properties.'});
+				}else{
+					gptGridProperties = jsonData;
+					loadSettingsIntoGrid();
+				}
+			},
+			failure: function() {
+				showInfoWindow({title:'Error', msg:'Error while loading Grid properties.'});
+			}
+		});
+		
+		
+		
+		Ext.Ajax.request({
+			url : 'view/doesSessionExists.jsp?'+addTimeURLParam(),
+			success : function(response)
+			{
+				var jsonDataSuccess = Ext.util.JSON.decode( response.responseText);
+				var success = jsonDataSuccess.success;
+				if( !success ){
+					getLoginWindow();
+					//last_activity_time = "";
+					setTimeout("checkServerSession("+param+")",30000);			// five minute interval
+				}else{
+					started = false;
+					removeLoginWindow();
+				}
+				// not required to check in Success for now
+				// setTimeout("checkServerSession("+param+")",30000);			// five minute interval
+			},
+			failure: function(){
+				getLoginWindow();
+				//last_activity_time = "";
+				setTimeout("checkServerSession("+param+")",30000);			// five minute interval
+			}
+		});
+		
+		
+		Ext.Ajax.request({
+			url : './getTzProject',
+			params : {
+				projectId:Ext.getDom("tz_projectId").value
+			},
+			success : function(response) {
+				var jsonData = Ext.util.JSON.decode(response.responseText);
+				var strTzId = jsonData.data;
+				if(strTzId.response == "" || strTzId.response == null){
+					Ext.getCmp("timezonecombo").setValue(strTzId.tzid);
+				}else{
+					showInfoWindow({title:'Message', msg: strTzId.response });
+				}
+			}
+		});
+		
+		
+		function defectCycleValidation(){
+			var value = false;
+			Ext.Ajax.request({
+				url : 'view/cyclevalidation.jsp',
+				success : function(response)
+				{
+					var jsonDataSuccess = Ext.util.JSON.decode( response.responseText);
+					var successMessage = jsonDataSuccess.data.response;
+					if(successMessage == 'success'){
+						value = true;
+						return value;
+					}
+					else{
+						//value = false;
+						showInfoWindow({title:'Alert', msg:'Select an Issue-Cycle'});
+						return value;
+					}
+				}
+			});
+			//return value;
+		}
+
+		
+		
+     
+     </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Basic Tabs</title>
+
+    <!-- ** CSS ** -->
+    <!-- base library -->
+    <link rel="stylesheet" type="text/css" href="../vendor/css/ext-all.css" />
+
+
+    <!-- ** Javascript ** -->
+    <!-- ExtJS library: base/adapter -->
+    <script type="text/javascript" src="../vendor/extjs/ext-base.js"></script>
+
+    <!-- ExtJS library: all widgets -->
+    <script type="text/javascript" src="../vendor/extjs/ext-all.js"></script>
+</head>
+<body>
+    <h1>Basic Tabs</h1>
+        
+    <div id="tabs1"></div>
+    
+    <div id="tabs2"></div>
+
+     <script type="text/javascript">
+     
+     Ext.onReady(function(){
+    	    // basic tabs 1, built from existing content
+/*     	    var tabs = new Ext.TabPanel({
+    	        renderTo: 'tabs1',
+    	        width:450,
+    	        activeTab: 0,
+    	        frame:true,
+    	        defaults:{autoHeight: true},
+    	        items:[
+    	            {contentEl:'script', title: 'Short Text'},
+    	            {contentEl:'markup', title: 'Long Text'}
+    	        ]
+    	    }); */
+    	    
+    	    // second tabs built from JS
+    	    var tabs2 = new Ext.TabPanel({
+    	        renderTo: 'tabs2',
+    	        activeTab: 0,
+    	        width:600,
+    	        height:250,
+    	        plain:true,
+    	        defaults:{autoScroll: true},
+    	        items:[{
+    	                title: 'Normal Tab',
+    	                html: "My content was added during construction."
+    	            },{
+    	                title: 'Ajax Tab 1',
+    	                autoLoad:'ajax1.htm'
+    	            },{
+    	                title: 'Ajax Tab 2',
+    	                autoLoad: {url: 'ajax2.htm', params: 'foo=bar&wtf=1'}
+    	            },{
+    	                title: 'Ajax Tab 3',
+    	        		listeners : {
+    	        			afterrender: function () {
+    	        				console.log('This is Ajax Tab 3');
+    	        			}
+    	        		}            	
+    	            },{
+    	                title: 'Event Tab',
+    	                listeners: {
+    	                	click: handleActivate
+    	                	},
+    	                html: "I am tab 4's content. I also have an event listener attached."
+    	            },{
+    	                title: 'Disabled Tab',
+    	                disabled:true,
+    	                html: "Can't see me cause I'm disabled"
+    	            }
+    	        ]
+    	    });
+
+    	    function handleActivate(tab){
+    	    	console.log('Event Tab was activated..');
+    	        //alert(tab.title + ' was activated.');
+    	    }
+    	    
+     });
+     
+     </script>
+</body>
+</html>

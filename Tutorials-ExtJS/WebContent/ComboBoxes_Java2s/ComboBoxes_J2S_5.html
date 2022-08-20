@@ -1,0 +1,108 @@
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Indicate display field for a ComboBox and SimpleStore</title>
+
+    <!-- ** CSS ** --><!-- base library -->
+    <link rel="stylesheet" type="text/css" href="../vendor/css/ext-all.css" />
+
+
+    <!-- ** Javascript ** --><!-- ExtJS library: base/adapter -->
+    <script type="text/javascript" src="../vendor/extjs/ext-base.js"></script>
+
+    <!-- ExtJS library: all widgets -->
+    <script type="text/javascript" src="../vendor/extjs/ext-all.js"></script>
+</head>
+<body>
+	
+	<div id='div1'>asdf</div> 
+
+     <script type="text/javascript">
+     
+     Ext.onReady(function() {
+    	 
+			var assigned_reader = new Ext.data.JsonReader({
+				root: 'data.message',
+    			fields:[ 'Designation' ]
+			}
+		);
+			
+		var ed_designation_proxy = new Ext.data.HttpProxy({url:'../arrayData.jsp'});
+    	 
+    	 var assigned_store = new Ext.data.ArrayStore({
+    			//autoLoad: true,
+    			//url: '../arrayData.jsp',
+    			proxy: ed_designation_proxy,
+    			/* remoteSort:false, */
+     			root: 'data.message',
+    			fields:[ 'Designation' ]
+    			});
+    	 assigned_store.load();
+    	 
+    	 console.info('assigned_store');
+    	 console.log(assigned_store);
+    	 
+    	 
+    	 var ed_designation_proxy = new Ext.data.HttpProxy({
+    		 url:'../arrayData.jsp'
+    		 });
+    	// var ed_designation_proxy = new Ext.data.HttpProxy({url:'./getLookupCodes?project_id=1&lookup_type=Incident Status'});
+    	
+    	 var ed_designation_reader = new Ext.data.JsonReader(
+    		{root: 'data.message'}
+    	 );
+    	 
+    	 
+/*     	 var ed_designation_store = new Ext.data.Store({
+    			proxy: ed_designation_proxy,
+    			reader: ed_designation_reader 
+    		});
+    		ed_designation_store.load(); */
+    		
+    	
+    		
+       	 var ed_designation_store = new Ext.data.ArrayStore({
+/*        			fields: ['Designation'],
+       			data: [
+       			  	["Close"],["Closed"],["Fix-Complete"],["Fixed"],["In-Fix"],["In-Retest"],["New"],["Open"],["Re-opened"],["Retest"],["Retest-Complete"],["Re-tested"]
+       			] */
+       		fields: ['Designation'],
+ 			proxy: ed_designation_proxy,
+			reader: ed_designation_reader
+       		});
+ 			/* ed_designation_store.load(); */
+ 			
+ 			/* console.info('ed_designation_reader');
+ 			console.log(ed_designation_reader); */
+    		
+    		var designationcombo = new Ext.form.ComboBox({
+    			fieldLabel: '<FONT COLOR=#FF0000 >*</FONT>Designation',
+    			hiddenName:'ddlDesignation',
+    			//store: ed_designation_store,
+    			store: assigned_store,
+    			valueField:'Designation',
+    			displayField:'Designation',
+    			typeAhead: true,
+    			mode: 'local',
+    			triggerAction: 'all',					
+    			editable:false,
+    			selectOnFocus:true,
+    			width:190,
+    			allowBlank: false
+    		});
+
+
+         new Ext.FormPanel({ 
+             url: 'your.php',
+             renderTo: Ext.getBody(),
+             frame: true,
+             title: 'My Combo Box1',
+             width: 360,
+             items: [ designationcombo ]
+           });
+     });
+     
+     </script>
+</body>
+</html>

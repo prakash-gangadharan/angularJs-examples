@@ -1,0 +1,60 @@
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Add combobox to a window and set width</title>
+
+    <!-- ** CSS ** -->
+    <!-- base library -->
+    <link rel="stylesheet" type="text/css" href="../vendor/css/ext-all.css" />
+
+
+    <!-- ** Javascript ** -->
+    <!-- ExtJS library: base/adapter -->
+    <script type="text/javascript" src="../vendor/extjs/ext-base.js"></script>
+
+    <!-- ExtJS library: all widgets -->
+    <script type="text/javascript" src="../vendor/extjs/ext-all.js"></script>
+</head>
+<body>
+	
+	<div id='div1'>asdf</div>
+
+     <script type="text/javascript">
+     
+     Ext.onReady(function() {
+         var panel = new Ext.Panel({
+             id:'main-panel',
+             baseCls:'x-plain',
+             renderTo: Ext.getBody(),
+             layout:'table',
+             layoutConfig: {columns:3},
+             // applied to child components
+             defaults: {frame:true, width:200, height: 200},
+             items:[{
+                 title:'Item 1'
+             },{
+                 title:'Item 2'
+             },{
+                 title:'Item 3'
+             },{
+                 title:'Item 4',
+                 width:410,
+                 colspan:2
+             },{
+                 title:'Item 5'
+             },{
+                 title:'Item 6'
+             },{
+                 title:'Item 7',
+                 width:410,
+                 colspan:2
+             },{
+                 title:'Item 8'
+             }]
+         });
+     });
+     
+     </script>
+</body>
+</html>

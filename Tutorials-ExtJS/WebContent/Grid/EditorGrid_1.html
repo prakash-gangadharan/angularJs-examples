@@ -1,0 +1,158 @@
+<html>
+<head>
+<title>Hello World Window</title>
+<link rel="stylesheet" type="text/css" href="../vendor/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="grid.css" />
+<script type="text/javascript" src="../vendor/extjs/ext-base.js"></script>
+<script type="text/javascript" src="../vendor/extjs/ext-all.js"></script>
+<script type="text/javascript" src="../vendor/extjs/CheckColumn.js"></script>
+</head>
+<!-- Revised from demo code in ext3.0.0 -->
+<body>
+<script type="text/javascript">
+/*!
+ * Ext JS Library 3.0.0
+ * Copyright(c) 2006-2009 Ext JS, LLC
+ * licensing@extjs.ru
+ * http://www.extjs.ru/license
+ */
+Ext.onReady(function(){
+    Ext.QuickTips.init();
+    
+    
+    function formatDate(value){
+        return value ? value.dateFormat("M d, Y") : "";
+    }
+
+    
+    // the column model has information about grid columns
+    // dataIndex maps the column to the specific data field in
+    // the data store (created below)
+    var cm = new Ext.grid.ColumnModel([{
+           id: "common",
+           header: "Common Name",
+           dataIndex: "common",
+           width: 220,
+           // use shorthand alias defined above
+           editor: new Ext.form.TextField({
+               allowBlank: false
+           })
+        },{
+           header: "Light",
+           dataIndex: "light",
+           width: 130,
+           editor: new Ext.form.DateField({
+               format: "m/d/y",
+               minValue: "01/01/06",
+               disabledDays: [0, 6],
+               disabledDaysText: "Plants are not available on the weekends"
+           })
+        },{
+           header: "Price",
+           dataIndex: "price",
+           width: 70,
+           align: "right",
+           renderer: "usMoney",
+           editor: new Ext.form.NumberField({
+               allowBlank: false,
+               allowNegative: false,
+               maxValue: 100000
+           })
+        },{
+           header: "Available",
+           dataIndex: "availDate",
+           width: 95,
+           renderer: formatDate,
+           editor: new Ext.form.DateField({
+                format: "m/d/y",
+                minValue: "01/01/06",
+                disabledDays: [0, 6],
+                disabledDaysText: "Plants are not available on the weekends"
+            })
+        },
+        new Ext.grid.CheckColumn({
+            header: "is Indoor?",
+            dataIndex: "indoor",
+            width: 55
+         })
+    ]);
+    
+    
+    // by default columns are sortable
+    cm.defaultSortable = true;
+    
+    
+    // create the Data Store
+    var store = new Ext.data.Store({
+        // load remote data using HTTP
+        url: "plants.xml",
+        // specify a XmlReader (coincides with the XML format of the returned data)
+        reader: new Ext.data.XmlReader(
+            {
+                // records will have a "plant" tag
+                record: "plant"
+            },
+            
+            // use an Array of field definition objects to implicitly create a Record constructor
+            [
+                // the "name" below matches the tag name to read, except "availDate"
+                // which is mapped to the tag "availability"
+                {name: "common", type: "string"},
+                {name: "botanical", type: "string"},
+                {name: "light"},
+                {name: "price", type: "float"},             
+                // dates can be automatically converted by specifying dateFormat
+                {name: "availDate", mapping: "availability", type: "date", dateFormat: "m/d/Y"},
+                {name: "indoor", type: "bool"}
+            ]
+        ),
+        sortInfo: {field:"common", direction:"ASC"}
+    });
+    
+    
+    // Create the editor grid
+    var grid = new Ext.grid.EditorGridPanel({
+        store: store,
+        cm: cm,
+        renderTo: "editor-grid",
+        width: 600,
+        height: 300,
+        autoExpandColumn: "common",
+        title: "Edit Plants",
+        frame: true,
+        plugins: checkColumn,
+        clicksToEdit: 1,
+        tbar: [{
+            text: "Add Plant",
+            handler : function(){
+                // access the Record constructor through the grid"s store
+                var Plant = grid.getStore().recordType;
+                var p = new Plant({
+                    common: "New Plant 1",
+                    light: "Mostly Shade",
+                    price: 0,
+                    availDate: (new Date()).clearTime(),
+                    indoor: false
+                });
+                grid.stopEditing();
+                store.insert(0, p);
+                grid.startEditing(0, 0);
+            }
+        }]
+    });
+    // trigger the data store load
+    store.load();
+});
+</script> 
+ 
+    <!-- the custom editor for the "Light" column references the id="light" -->
+    <select name="light" id="light" style="display: none;">
+      <option value="Shade">Shade</option>
+      <option value="Mostly Shady">Mostly Shady</option>
+      <option value="Sun or Shade">Sun or Shade</option>
+      <option value="Mostly Sunny">Mostly Sunny</option>
+      <option value="Sunny">Sunny</option>
+    </select>
+<div id="editor-grid"></div>
+</body>
+</html>

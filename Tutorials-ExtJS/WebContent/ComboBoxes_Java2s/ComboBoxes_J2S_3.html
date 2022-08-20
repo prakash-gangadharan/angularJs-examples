@@ -1,0 +1,65 @@
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Load data from server and feed into ComboBox</title>
+
+    <!-- ** CSS ** --><!-- base library -->
+    <link rel="stylesheet" type="text/css" href="../vendor/css/ext-all.css" />
+
+    <!-- ** Javascript ** --><!-- ExtJS library: base/adapter -->
+    <script type="text/javascript" src="../vendor/extjs/ext-base.js"></script>
+
+    <!-- ExtJS library: all widgets -->
+    <script type="text/javascript" src="../vendor/extjs/ext-all.js"></script>
+</head>
+<body>
+
+	<div id='div1'>asdf</div>
+	
+	<script type="text/javascript">
+    Ext.onReady(function() {
+    	
+        var values = new Ext.data.Store({
+            reader: new Ext.data.JsonReader({
+            	fields:['lookuptype'],
+                root: 'list_Type'
+            }),
+            proxy: new Ext.data.HttpProxy({
+                url: '../data.jsp'
+            }),
+            autoLoad: true
+        });
+    	
+        console.info('values');
+        console.log(values);
+        
+        new Ext.FormPanel({ 
+            url: 'your.php',
+            renderTo: Ext.getBody(),
+            frame: true,
+            title: 'Title',
+            width: 550,
+            items: [ 
+                      {
+                  xtype: 'combo',
+                  name: 'value',
+                  fieldLabel: 'Value',
+                  mode: 'local',
+                  store: values,
+                  displayField:'lookuptype',
+                  valueField: 'lookuptype',
+                  width: 130
+                }
+            ],
+            listeners: {
+                select: function(f,r,i){
+                  Ext.Msg.alert('Title',i);
+                }
+              } 
+          });
+        
+    });
+	</script>
+</body>
+</html>

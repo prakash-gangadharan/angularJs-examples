@@ -1,0 +1,138 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Set up combobox field</title>
+
+<!-- ** CSS ** -->
+<!-- base library -->
+<link rel="stylesheet" type="text/css" href="../vendor/css/ext-all.css" />
+
+
+<!-- ** Javascript ** -->
+<!-- ExtJS library: base/adapter -->
+<script type="text/javascript" src="../vendor/extjs/ext-base.js"></script>
+
+<!-- ExtJS library: all widgets -->
+<script type="text/javascript" src="../vendor/extjs/ext-all.js"></script>
+</head>
+<body>
+
+	<div id='div1'>asdf</div>
+
+	<script type="text/javascript">
+     
+     Ext.onReady(function() {
+ 
+         var names = [
+                      ['App'], ['DB'], ['Server'], ['Log']
+                  ];
+         
+         var mySimpleStore = new Ext.data.ArrayStore({
+             data   : names,
+             fields : ['name']
+         });
+         
+         var values = new Ext.data.SimpleStore({
+             data : [['1','App'],['2','DB'],['3','Server']],
+             fields: ['id', 'value']
+         });
+         
+         
+         /* Type 1*/
+         var combo = {
+       	        xtype        : 'combo',
+       	        fieldLabel   : 'combo',
+       	        store        : mySimpleStore,
+       	        displayField : 'name',
+       	        typeAhead    : true,
+       	        mode         : 'local'
+       	    }
+         
+         /* Type 2*/
+       	var combo1 = new Ext.form.ComboBox({
+   	        fieldLabel   : 'combo1',
+   	        store        : mySimpleStore,
+   	        displayField : 'name',
+   	        typeAhead    : true,
+   	        mode         : 'local'
+       	});
+         
+
+         var valuesFromAjax = new Ext.data.Store({
+             reader: new Ext.data.JsonReader({
+             	fields:['lookuptype'],
+                 root: 'list_Type'
+             }),
+             proxy: new Ext.data.HttpProxy({
+                 url: '../data.jsp'
+             }),
+             autoLoad: true
+         });
+         
+         new Ext.Window({
+             title      : 'My Window',
+             height     : 300,
+             layout     : 'form',
+             labelWidth : 80,
+             bodyStyle  : 'padding: 5px',
+             items      : [
+	                           combo, 
+	                           combo1,{
+	                        	   fieldLabel : 'Name',
+	                        	   width      : 80
+	                           },{
+	                        	   xtype      : 'combo',
+	                        	   fieldLabel : 'Location',
+	                        	   width      : 120,
+	                        	   id: 'locationSelectionCombo',
+	                        	   store      : [ 'Chennai', 'Trichy', 'Coimbatore' ]
+	                           }, new Ext.FormPanel({ 
+	                               url: 'your.php',
+	                               renderTo: Ext.getBody(),
+	                               frame: true,
+	                               title: 'My Form Panel - 1',
+	                               width: 250,
+	                               items: [
+	                                       {
+	                                     xtype: 'combo',
+	                                     name: 'value',
+	                                     fieldLabel: 'Value',
+	                                     mode: 'local',
+	                                     store: values,
+	                                     displayField:'value',
+	                                     width: 130
+	                                   }
+	                               ]
+	                             }), new Ext.FormPanel({ 
+	                                 url: 'your.php',
+	                                 renderTo: Ext.getBody(),
+	                                 frame: true,
+	                                 title: 'My Form Panel - 2',
+	                                 width: 550,
+	                                 items: [ 
+	                                           {
+	                                       xtype: 'combo',
+	                                       name: 'value',
+	                                       fieldLabel: 'Value',
+	                                       mode: 'local',
+	                                       store: valuesFromAjax,
+	                                       displayField:'lookuptype',
+	                                       valueField: 'lookuptype',
+	                                       width: 130
+	                                     }
+	                                 ],
+	                                 listeners: {
+	                                     select: function(f,r,i){
+	                                       Ext.Msg.alert('Title',i);
+	                                     }
+	                                   } 
+	                               })
+                           ]
+         }).show()
+    	 
+     });
+     
+     </script>
+</body>
+</html>
